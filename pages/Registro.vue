@@ -12,7 +12,7 @@
                   Recetario
                 </h4>
                 <h6 class="text-h6 text text-center" style="color: rgba(184, 51, 255, 1);">
-                  Iniciar Sesión
+                  Regístrate
                 </h6>
               </v-card-subtitle>
               <v-card-text>
@@ -20,10 +20,24 @@
                   <v-text-field
                     required
                     outlined
-                    label="Correo eléctronico"
-                    prepend-inner-icon="mdi-email"
+                    label="Nombre"
+                    prepend-inner-icon="mdi-account"
                   ></v-text-field>
 
+                  <v-text-field
+                    required
+                    outlined
+                    label="Apellidos"
+                    prepend-inner-icon="mdi-account"
+                  ></v-text-field>
+
+                  <v-text-field
+                    required
+                    outlined
+                    label="Correo Electronico"
+                    prepend-inner-icon="mdi-email"
+                    
+                  ></v-text-field>
                   <v-text-field
                     required
                     outlined
@@ -31,23 +45,21 @@
                     prepend-inner-icon="mdi-lock"
                     
                   ></v-text-field>
-                  <v-row no-gutters>
-                    <v-col cols="12" align="right">
-                      <NuxtLink
-                        class="text-subtitle-1 text text--darken-2"
-                        style="text-decoration: none; color: rgba(184, 51, 255, 1);"
-                        to="RecuContra"
-                      >
-                        <h4 class="text-subtitle-1 primary--text text--darken-2" >OLVIDE MI CONTRASEÑA</h4>
-                      </NuxtLink>
-                    </v-col>
-                  </v-row>
+                  <v-text-field
+                    required
+                    outlined
+                    label="Confirmar Contraseña"
+                    prepend-inner-icon="mdi-lock"
+                    
+                  ></v-text-field>
                   <v-row justify="center" no-gutters>
                     <v-col cols="12">
                       <!--Mensaje de error-->
                     </v-col>
                   </v-row>
+                  
                   <v-row no-gutters justify="center" align="center">
+                    <v-checkbox label="Aceptar terminos y condiciones"></v-checkbox>
                     <v-col cols="12">
                       <v-btn
                         class="mx-auto col-md-11"
@@ -55,7 +67,7 @@
                         dense
                         block
                       >
-                        Iniciar Sesión
+                        Registarme
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -64,9 +76,9 @@
                       <NuxtLink
                         class="text-subtitle-1 primary--text text--darken-2"
                         style="text-decoration: none; color: rgba(184, 51, 255, 1);"
-                        to="/Registro"
+                        to="/"
                       >
-                        <h1 class="text-subtitle-1">NO TENGO UNA CUENTA</h1>
+                        <h1 class="text-subtitle-1">YA TENGO UNA CUENTA</h1>
                       </NuxtLink>
                     </span>
                   </v-row>
