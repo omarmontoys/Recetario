@@ -1,6 +1,6 @@
 <template>
   <v-app >
-  <v-container fill-height fluid>
+  <v-container fill-height>
     <v-row align="center" justify="center">
       <!-- <v-col class="col-md-10 offset-md-1"> -->
       <v-col class="pt-0 pb-2" xl="4" md="6" lg="6" sm="10" xs="12">
@@ -103,18 +103,21 @@
 #app{
   background-image: url("../assets/images/Login/login2.avif");
   background-size: cover;
-  height: 100vh;
+  height: 100%;
   width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
+}
+.v-card{
+  background: rgb(255, 255, 255) ;
 }
 .v-card-title {
   display: block !important;
 }
 .img {
-  height: 22px;
+  height: 19px;
   max-width: 15px;
 }
 .img-f {

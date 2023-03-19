@@ -1,10 +1,10 @@
 <template>
   <v-app >
-  <v-container fill-height fluid>
-    <v-row align="center" justify="center">
+  <v-container fill-height  >
+    <v-row align="center" justify="center" >
       <!-- <v-col class="col-md-10 offset-md-1"> -->
       <v-col class="pt-0 pb-2" xl="4" md="6" lg="6" sm="10" xs="12">
-        <v-card class="elevation-2 pa-4" outlined rounded="lg">
+        <v-card class="elevation-2 pa-4"  rounded="lg" >
           <v-row align="center" justify="center">
             <v-col cols="10">
               <v-card-subtitle class="v-card-subtitle">
@@ -97,6 +97,9 @@
     position: absolute;
     top: 0;
     left: 0;
+}
+.v-card{
+  background: rgb(255, 255, 255) ;
 }
 .v-card-title {
   display: block !important;
