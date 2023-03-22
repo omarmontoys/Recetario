@@ -8,10 +8,10 @@
           <v-row align="center" justify="center">
             <v-col cols="10">
               <v-card-subtitle class="v-card-subtitle">
-                <h4 class="text-h4 text text-center" style="color: rgba(184, 51, 255, 1);">
+                <h4 class="text-h4 text text-center" style="color: rgba(184, 116, 72  , 1);">
                   Recetario
                 </h4>
-                <h6 class="text-h6 text text-center" style="color: rgba(184, 51, 255, 1);">
+                <h6 class="text-h6 text text-center" style="color: rgba(198, 125, 77 , 1);">
                   Iniciar Sesión
                 </h6>
               </v-card-subtitle>
@@ -35,10 +35,10 @@
                     <v-col cols="12" align="right">
                       <NuxtLink
                         class="text-subtitle-1 text text--darken-2"
-                        style="text-decoration: none; color: rgba(184, 51, 255, 1);"
+                        style="text-decoration: none; color: rgba(198, 125, 77 , 1);"
                         to="RecuContra"
                       >
-                        <h4 class="text-subtitle-1 primary--text text--darken-2" >OLVIDE MI CONTRASEÑA</h4>
+                        <h4 class="text-subtitle-1 primary--text text--darken-2" >¿Has olvidado tu contraseña?</h4>
                       </NuxtLink>
                     </v-col>
                   </v-row>
@@ -50,10 +50,12 @@
                   <v-row no-gutters justify="center" align="center">
                     <v-col cols="12">
                       <v-btn
-                        class="mx-auto col-md-11"
-                        color="rgba(184, 51, 255, 1);"
+                        class="mx-auto col-md-11 text text--darken-2"
+                        color="rgba(198, 125, 77 , 1);"
                         dense
+                        light
                         block
+                        @click="Principal()"
                       >
                         Iniciar Sesión
                       </v-btn>
@@ -63,10 +65,10 @@
                    <span>
                       <NuxtLink
                         class="text-subtitle-1 primary--text text--darken-2"
-                        style="text-decoration: none; color: rgba(184, 51, 255, 1);"
+                        style="text-decoration: none; color: rgba(198, 125, 77 , 1);"
                         to="/Registro"
                       >
-                        <h1 class="text-subtitle-1">NO TENGO UNA CUENTA</h1>
+                        <h1 class="text-subtitle-1">Crear cuenta</h1>
                       </NuxtLink>
                     </span>
                   </v-row>
@@ -84,6 +86,14 @@
 
 <script>
 
+
+  export default {
+   methods:{
+        Principal(){
+            this.$router.push('./PagPrin/Principal');
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -99,7 +109,7 @@
     left: 0;
 }
 .v-card{
-  background: rgb(255, 255, 255) ;
+  background: rgba(255, 255, 255, 0.468) ;
 }
 .v-card-title {
   display: block !important;

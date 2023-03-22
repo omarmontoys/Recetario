@@ -12,7 +12,7 @@
                     Recetario
                   </h4>
                   <h6 class="text-h6 text text-center" style="color: rgba(198, 125, 77 , 1);">
-                    Cambiar Contraseña
+                    Regístrate
                   </h6>
                 </v-card-subtitle>
                 <v-card-text>
@@ -20,8 +20,15 @@
                     <v-text-field
                       required
                       outlined
-                      label="Correo Electronico"
-                      prepend-inner-icon="mdi-email"
+                      label="Nueva Contraseña"
+                      prepend-inner-icon="mdi-lock"
+                      
+                    ></v-text-field>
+                    <v-text-field
+                      required
+                      outlined
+                      label="Confirmar Contraseña"
+                      prepend-inner-icon="mdi-lock"
                       
                     ></v-text-field>
                     <v-row justify="center" no-gutters>
@@ -37,9 +44,9 @@
                           color="rgba(198, 125, 77 , 1);"
                           dense
                           block
-                          @click="CambiarContraa()"
+                          @click="index()"
                         >
-                          Continuar
+                          Cambiar Contraseña
                         </v-btn>
                       </v-col>
                     </v-row>
@@ -58,8 +65,8 @@
   <script>
   export default {
    methods:{
-        CambiarContraa(){
-            this.$router.push('/CambiarContra');
+        index(){
+          this.$router.push('/');
         }
     }
 }
@@ -78,7 +85,7 @@
       left: 0;
   }
   .v-card{
-    background: rgb(255, 255, 255,0.468) ;
+    background: rgb(255, 255, 255, 0.468) ;
   }
   .v-card-title {
     display: block !important;

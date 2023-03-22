@@ -8,50 +8,42 @@
           <v-row align="center" justify="center">
             <v-col cols="10">
               <v-card-subtitle class="v-card-subtitle">
-                <h4 class="text-h4 text text-center" style="color: rgba(184, 51, 255, 1);">
+                <h4 class="text-h4 text text-center" style="color: rgba(184, 116, 72  , 1);">
                   Recetario
                 </h4>
-                <h6 class="text-h6 text text-center" style="color: rgba(184, 51, 255, 1);">
+                <h6 class="text-h6 text text-center" style="color: rgba(198, 125, 77 , 1);">
                   Regístrate
                 </h6>
               </v-card-subtitle>
               <v-card-text>
                 <v-form ref="form">
                   <v-text-field
-                    required
+                  
                     outlined
                     label="Nombre"
                     prepend-inner-icon="mdi-account"
                   ></v-text-field>
 
                   <v-text-field
-                    required
+                  
                     outlined
                     label="Apellidos"
                     prepend-inner-icon="mdi-account"
                   ></v-text-field>
 
                   <v-text-field
-                    required
+                    :rules="[rules.required]"
                     outlined
                     label="Correo Electronico"
                     prepend-inner-icon="mdi-email"
                     
                   ></v-text-field>
-                  <v-text-field
-                    required
-                    outlined
-                    label="Contraseña"
-                    prepend-inner-icon="mdi-lock"
-                    
-                  ></v-text-field>
-                  <v-text-field
-                    required
-                    outlined
-                    label="Confirmar Contraseña"
-                    prepend-inner-icon="mdi-lock"
-                    
-                  ></v-text-field>
+                  <v-text-field v-model="password" :rules="[rules.required, rules.min]" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+               :type="show1 ? 'text' : 'password'" name="input-10-2" label="Contraseña" filled outlined
+               @click:append="show1 = !show1"></v-text-field>
+               <v-text-field v-model="password2" :rules="[rules.required, rules.min]" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+               :type="show1 ? 'text' : 'password'" name="input-10-2" label="Confirmar Contraseña" filled outlined
+               @click:append="show1 = !show1"></v-text-field>
                   <v-row justify="center" no-gutters>
                     <v-col cols="12">
                       <!--Mensaje de error-->
@@ -59,13 +51,13 @@
                   </v-row>
                   
                   <v-row no-gutters justify="center" align="center">
-                    <v-checkbox label="Aceptar terminos y condiciones"></v-checkbox>
                     <v-col cols="12">
                       <v-btn
                         class="mx-auto col-md-11"
-                        color="rgba(184, 51, 255, 1);"
+                        color="rgba(198, 125, 77 , 1);"
                         dense
                         block
+                        @click="Index()"
                       >
                         Registarme
                       </v-btn>
@@ -78,7 +70,7 @@
                         style="text-decoration: none; color: rgba(184, 51, 255, 1);"
                         to="/"
                       >
-                        <h1 class="text-subtitle-1">YA TENGO UNA CUENTA</h1>
+                        <h1 class="text-subtitle-1">Ya tengo una cuenta</h1>
                       </NuxtLink>
                     </span>
                   </v-row>
@@ -95,7 +87,24 @@
 </template>
 
 <script>
-
+  export default {
+   methods:{
+        Index(){
+            this.$router.push('./PagPrin/Principal');
+        }
+    },
+    data() {
+   return {
+     show1: false,
+     password: "",
+     password2: "",
+     rules: {
+       required: (value) => !!value || "Required.",
+       min: (v) => v.length >= 8 || "Min 6 characters",
+     },
+   };
+ },
+}
 </script>
 
 <style scoped>
@@ -111,7 +120,7 @@
     left: 0;
 }
 .v-card{
-  background: rgb(255, 255, 255) ;
+  background: rgb(255, 255, 255, 0.468) ;
 }
 .v-card-title {
   display: block !important;
