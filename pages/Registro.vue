@@ -1,10 +1,10 @@
 <template>
   <v-app >
-  <v-container fill-height  >
-    <v-row align="center" justify="center" >
+  <v-container fill-height>
+    <v-row align="center" justify="center">
       <!-- <v-col class="col-md-10 offset-md-1"> -->
       <v-col class="pt-0 pb-2" xl="4" md="6" lg="6" sm="10" xs="12">
-        <v-card class="elevation-2 pa-4"  rounded="lg" >
+        <v-card class="elevation-2 pa-4" outlined rounded="lg">
           <v-row align="center" justify="center">
             <v-col cols="10">
               <v-card-subtitle class="v-card-subtitle">
@@ -12,52 +12,54 @@
                   Recetario
                 </h4>
                 <h6 class="text-h6 text text-center" style="color: rgba(198, 125, 77 , 1);">
-                  Iniciar Sesión
+                  Regístrate
                 </h6>
               </v-card-subtitle>
               <v-card-text>
                 <v-form ref="form">
                   <v-text-field
-                    required
+                  
                     outlined
-                    label="Correo eléctronico"
-                    prepend-inner-icon="mdi-email"
+                    label="Nombre"
+                    prepend-inner-icon="mdi-account"
                   ></v-text-field>
 
                   <v-text-field
-                    required
+                  
                     outlined
-                    label="Contraseña"
-                    prepend-inner-icon="mdi-lock"
+                    label="Apellidos"
+                    prepend-inner-icon="mdi-account"
+                  ></v-text-field>
+
+                  <v-text-field
+                    :rules="[rules.required]"
+                    outlined
+                    label="Correo Electronico"
+                    prepend-inner-icon="mdi-email"
                     
                   ></v-text-field>
-                  <v-row no-gutters>
-                    <v-col cols="12" align="right">
-                      <NuxtLink
-                        class="text-subtitle-1 text text--darken-2"
-                        style="text-decoration: none; color: rgba(198, 125, 77 , 1);"
-                        to="RecuContra"
-                      >
-                        <h4 class="text-subtitle-1 primary--text text--darken-2" >¿Has olvidado tu contraseña?</h4>
-                      </NuxtLink>
-                    </v-col>
-                  </v-row>
+                  <v-text-field v-model="password" :rules="[rules.required, rules.min]" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+               :type="show1 ? 'text' : 'password'" name="input-10-2" label="Contraseña" filled outlined
+               @click:append="show1 = !show1"></v-text-field>
+               <v-text-field v-model="password2" :rules="[rules.required, rules.min]" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+               :type="show1 ? 'text' : 'password'" name="input-10-2" label="Confirmar Contraseña" filled outlined
+               @click:append="show1 = !show1"></v-text-field>
                   <v-row justify="center" no-gutters>
                     <v-col cols="12">
                       <!--Mensaje de error-->
                     </v-col>
                   </v-row>
+                  
                   <v-row no-gutters justify="center" align="center">
                     <v-col cols="12">
                       <v-btn
-                        class="mx-auto col-md-11 text text--darken-2"
+                        class="mx-auto col-md-11"
                         color="rgba(198, 125, 77 , 1);"
                         dense
-                        light
                         block
-                        @click="Principal()"
+                        @click="Index()"
                       >
-                        Iniciar Sesión
+                        Registarme
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -65,10 +67,10 @@
                    <span>
                       <NuxtLink
                         class="text-subtitle-1 primary--text text--darken-2"
-                        style="text-decoration: none; color: rgba(198, 125, 77 , 1);"
-                        to="/Registro"
+                        style="text-decoration: none; color: rgba(184, 51, 255, 1);"
+                        to="/"
                       >
-                        <h1 class="text-subtitle-1">Crear cuenta</h1>
+                        <h1 class="text-subtitle-1">Ya tengo una cuenta</h1>
                       </NuxtLink>
                     </span>
                   </v-row>
@@ -85,14 +87,23 @@
 </template>
 
 <script>
-
-
   export default {
    methods:{
-        Principal(){
+        Index(){
             this.$router.push('./PagPrin/Principal');
         }
-    }
+    },
+    data() {
+   return {
+     show1: false,
+     password: "",
+     password2: "",
+     rules: {
+       required: (value) => !!value || "Required.",
+       min: (v) => v.length >= 8 || "Min 6 characters",
+     },
+   };
+ },
 }
 </script>
 
@@ -101,21 +112,21 @@
 #app{
   background-image: url("../assets/images/Login/login2.avif");
   background-size: cover;
-  height: 100vh;
+  height: 100%;
   width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
 }
 .v-card{
-  background: rgba(255, 255, 255, 0.468) ;
+  background: rgb(255, 255, 255, 0.468) ;
 }
 .v-card-title {
   display: block !important;
 }
 .img {
-  height: 22px;
+  height: 19px;
   max-width: 15px;
 }
 .img-f {
