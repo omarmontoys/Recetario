@@ -53,7 +53,6 @@
                         class="mx-auto col-md-11 text text--darken-2"
                         color="rgba(198, 125, 77 , 1);"
                         dense
-                        light
                         block
                         @click="Principal()"
                       >
