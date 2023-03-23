@@ -34,7 +34,7 @@
                       <v-col cols="12">
                         <v-btn
                           class="mx-auto col-md-11"
-                          color="rgba(198, 125, 77 , 1);"
+                          color="primary"
                           dense
                           block
                           @click="CambiarContraa()"
@@ -78,7 +78,7 @@
       left: 0;
   }
   .v-card{
-    background: rgb(255, 255, 255,0.468) ;
+    background: rgba(255, 255, 255, 0.468) !important;
   }
   .v-card-title {
     display: block !important;
