@@ -9,10 +9,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "postcss": "^8.1.9",
-    "postcss-import": "12.0.1",
+    "@nuxtjs/vercel-builder": "^0.24.0",
     "core-js": "^3.25.3",
     "nuxt": "^2.16.1",
+    "postcss": "^8.1.9",
+    "postcss-import": "12.0.1",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10",
