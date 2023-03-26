@@ -1,0 +1,12 @@
+query Recipes{
+  recipes{
+    title
+    description
+    ingredients
+    process
+    timeCategory
+    nutritionCategory
+    portions
+    authorId
+  }
+}

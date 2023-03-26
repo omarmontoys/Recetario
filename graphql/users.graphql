@@ -1,0 +1,18 @@
+query Users{
+  users {
+    id
+    names
+    lastNames
+    email
+    recipes {
+      title
+      description
+      ingredients
+      process
+      timeCategory
+      nutritionCategory
+      portions
+      authorId
+    }
+  }
+}

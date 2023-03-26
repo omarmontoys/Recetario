@@ -1,0 +1,18 @@
+mutation RegisterUser($create: CreateUserInput!){
+  registerUser(create: $create) {
+    id
+    names
+    lastNames
+    email
+    recipes {
+      title
+      description
+      ingredients
+      process
+      timeCategory
+      nutritionCategory
+      portions
+      authorId
+    }
+  }
+}

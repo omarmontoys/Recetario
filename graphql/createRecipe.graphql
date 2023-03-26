@@ -1,0 +1,13 @@
+mutation CreateRecipe($create: CreateRecipeInput!){
+  createRecipe(create:$create ){
+    authorId
+        title
+    description
+    ingredients
+    process
+    timeCategory
+    nutritionCategory
+    portions
+    authorId
+  }
+}
