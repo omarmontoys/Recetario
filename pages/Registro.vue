@@ -39,14 +39,14 @@
 
                     <v-text-field
                       v-model="dataRegister.email"
-                      :rules="[rules.required]"
+                      :rules="[rules.required, rules.email]"
                       outlined
                       label="Correo Electronico"
                       prepend-inner-icon="mdi-email"
                     ></v-text-field>
                     <v-text-field
                       v-model="dataRegister.password"
-                      :rules="[rules.required, rules.min]"
+                      :rules="[rules.required, rules.regex]"
                       :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                       :type="show1 ? 'text' : 'password'"
                       name="input-10-2"
@@ -59,7 +59,7 @@
                       v-model="repeatpassword"
                       :rules="[
                         rules.required,
-                        rules.min,
+                        rules.regex,
                         rules.confirmPassword,
                       ]"
                       :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -129,9 +129,13 @@ export default class Register extends Vue {
   public repeatpassword = "";
   public rules = {
     required: (value: string) => !!value || "Required.",
-    min: (v: string) => v.length >= 8 || "Min 6 characters",
+    regex: (v: string): string | boolean =>
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\S]{8,}$/.test(v) ||
+      "La contraseña debe contener al menos un número y una mayúscula. Vuelve a intentarlo. Minimo 8 caracteres",
     confirmPassword: (v: string): string | boolean =>
       v === this.dataRegister.password || "Las contraseñas no coinciden",
+    email: (v: string): string | boolean =>
+      /.+@.+\..+/.test(v) || "El email no es válido. Vuelve a intentalo.",
   };
   public dataRegister: CreateUserInput = {
     names: "",

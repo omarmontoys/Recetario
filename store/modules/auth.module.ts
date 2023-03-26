@@ -1,3 +1,4 @@
+import { ApolloError } from "@apollo/client";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { Auth, CreateUserInput, LoginInput, User } from "~/gql/graphql";
 import authService from "~/services/auth.service";
@@ -9,6 +10,7 @@ class AuthModule extends VuexModule {
   public user?: User = undefined;
   public loadingLoginStatus = false;
   public loadingRegisterStatus = false;
+  public errorMessage?: string = undefined;
   @Mutation
   public removeCookies() {
     window.$nuxt.$cookies.remove("token");

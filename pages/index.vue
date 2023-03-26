@@ -24,7 +24,7 @@
                 <v-card-text>
                   <v-form ref="form">
                     <v-text-field
-                      :rules="[rules.required]"
+                      :rules="[rules.required, rules.email]"
                       outlined
                       v-model="datalogin.email"
                       label="Correo eléctronico"
@@ -44,6 +44,18 @@
                     <v-row justify="center" no-gutters>
                       <v-col cols="12">
                         <!--Mensaje de error-->
+                      </v-col>
+                    </v-row>
+                    <v-row justify="center" no-gutters>
+                      <v-col cols="12">
+                        <v-alert
+                          v-if="errorMessage"
+                          outlined
+                          dense
+                          type="error"
+                        >
+                          {{ errorMessage }}
+                        </v-alert>
                       </v-col>
                     </v-row>
                     <v-row no-gutters justify="center" align="center">
@@ -86,6 +98,7 @@
 </template>
 
 <script lang="ts">
+import { data } from "browserslist";
 import Vue from "vue";
 import Component from "vue-class-component";
 import { namespace } from "vuex-class";
@@ -98,11 +111,15 @@ export default class Login extends Vue {
   public rules = {
     required: (value: string) => !!value || "Required.",
     min: (v: string) => v.length >= 8 || "Min 6 characters",
+    email: (v: string): string | boolean =>
+      /.+@.+\..+/.test(v) || "El email no es válido. Vuelve a intentalo.",
   };
   public datalogin: LoginInput = {
     email: "",
     password: "",
   };
+  @Auth.State("errorMessage")
+  public errorMessage?: string;
   @Auth.Action
   private login!: (data: LoginInput) => Promise<void>;
   async handleLogin() {
