@@ -40,6 +40,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    'cookie-universal-nuxt',
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -50,7 +51,7 @@ export default {
       themes: {
        light: {
           primary: "#C67D4D",
-          accent: colors.grey.darken3,
+          accent: '#000000',
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
           warning: colors.amber.base,
