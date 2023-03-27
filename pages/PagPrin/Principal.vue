@@ -138,6 +138,20 @@
         </v-dialog>
       </v-fab-transition>
     </v-card-text>
+    <v-snackbar v-model="snackbarSucessCreateRecipe">
+      {{ snackbarSucessMessageCreateRecipe }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="green"
+          text
+          v-bind="attrs"
+          @click="changeStatusSnackbarCreateRecipe()"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -193,6 +207,12 @@ export default class Principal extends Vue {
   }
   @Auth.Action
   private logOut!: () => void;
+  @RecipesModule.State("snackbarSucessCreateRecipe")
+  public snackbarSucessCreateRecipe?: boolean;
+  @RecipesModule.State("snackbarSucessMessageCreateRecipe")
+  public snackbarSucessMessageCreateRecipe?: string;
+  @RecipesModule.Action
+  private changeStatusSnackbarCreateRecipe!: () => void;
 }
 </script>
 

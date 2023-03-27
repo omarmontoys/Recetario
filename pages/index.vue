@@ -66,6 +66,7 @@
                           dense
                           block
                           @click="handleLogin()"
+                          :loading="loadingLoginStatus"
                         >
                           Iniciar Sesión
                         </v-btn>
@@ -120,6 +121,8 @@ export default class Login extends Vue {
   };
   @Auth.State("errorMessage")
   public errorMessage?: string;
+  @Auth.State("loadingLoginStatus")
+  public loadingLoginStatus?: boolean;
   @Auth.Action
   private login!: (data: LoginInput) => Promise<void>;
   async handleLogin() {
