@@ -28,7 +28,7 @@ export default {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: false,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -49,7 +49,7 @@ export default {
     theme: {
       dark: false,
       themes: {
-       light: {
+        light: {
           primary: "#C67D4D",
           accent: '#000000',
           secondary: colors.amber.darken3,

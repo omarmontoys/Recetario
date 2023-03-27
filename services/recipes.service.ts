@@ -1,4 +1,4 @@
-import { apolloClient } from "@/provider/ApolloProvider";
+import { apolloClient } from "@/provider/apolloprovider";
 import {
   CreateRecipe,
   CreateRecipeInput,

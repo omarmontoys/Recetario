@@ -43,7 +43,7 @@
             </div>
             <v-row class="pt-7">
               <v-col cols="4" v-for="(recipe, index) in recipes" :key="index">
-                <card-recipes :recipe="recipe"> </card-recipes>
+                <CardRecipes :recipe="recipe" />
               </v-col>
             </v-row>
           </v-col>
