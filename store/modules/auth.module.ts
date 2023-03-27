@@ -11,18 +11,40 @@ class AuthModule extends VuexModule {
   public loadingLoginStatus = false;
   public loadingRegisterStatus = false;
   public errorMessage?: string = undefined;
+
+  @Mutation
+  public loginFaile(error: any) {
+    if (error.message === "Tus datos son incorrectos") {
+      this.errorMessage = "Tus datos son incorrectos";
+    } else if (error.message === "No Used found") {
+      this.errorMessage = "Usuario no encontrado";
+    } else if (error.message === "Argument Validation Error") {
+      this.errorMessage = "Argumentos Invalidos";
+    } else {
+      this.errorMessage = "A ocurrido un error";
+    }
+  }
+
+  @Mutation
+  public resetErrorMessage() {
+    this.errorMessage = undefined;
+  }
+
   @Mutation
   public removeCookies() {
     window.$nuxt.$cookies.remove("token");
     window.$nuxt.$router.push("/");
   }
+
   @Action({ rawError: true })
   logOut(): void {
     this.context.commit("removeCookies");
   }
+
   @Action
   async login(data: LoginInput) {
     this.context.commit("loadingLogin", true);
+    this.context.commit("resetErrorMessage");
     return await AuthService.login(data)
       .then((auth: Auth) => {
         console.log(auth);
@@ -31,9 +53,12 @@ class AuthModule extends VuexModule {
         window.$nuxt.$router.push("./PagPrin/Principal");
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
+        this.context.commit("loginFaile", error);
+        this.context.commit("loadingLogin", false);
       });
   }
+
   @Action
   async registerUser(data: CreateUserInput) {
     this.context.commit("loadingRegister", true);
@@ -57,6 +82,7 @@ class AuthModule extends VuexModule {
         window.$nuxt.$router.push("/");
       });
   }
+
   @Mutation
   public loginSuccess(auth: Auth): void {
     console.log(auth);
@@ -64,17 +90,21 @@ class AuthModule extends VuexModule {
       path: "/",
     });
   }
+
   @Mutation
   public loadingLogin(status: boolean) {
     this.loadingLoginStatus = status;
   }
+
   @Mutation
   public loadingRegister(status: boolean) {
     this.loadingRegisterStatus = status;
   }
+
   get isLoadingLogin(): boolean {
     return this.loadingLoginStatus;
   }
+
   get isLoadingRegister(): boolean {
     return this.loadingRegisterStatus;
   }
