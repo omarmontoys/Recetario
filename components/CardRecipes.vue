@@ -5,7 +5,7 @@
       <h2 class="text-h6 primary--text">{{ recipe.title }}</h2>
     </v-card-text>
     <v-card-title> </v-card-title>
-    <v-card-action>
+    <v-card-actions>
       <div class="text-center">
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on, attrs }">
@@ -51,7 +51,7 @@
           </v-card>
         </v-dialog>
       </div>
-    </v-card-action>
+    </v-card-actions>
   </v-card>
 </template>
 

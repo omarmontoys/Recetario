@@ -3,7 +3,7 @@
     <template>
       <v-card class="mx-auto overflow-hidden" height="25">
         <v-app-bar color="primary" dark app>
-          <v-app-bar-nav-icon></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
           <v-toolbar-title>Recetario</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -12,9 +12,12 @@
           </v-btn>
         </v-app-bar>
 
-        <v-navigation-drawer absolute temporary>
-          <v-list nav dense>
-            <v-list-item-group active-class="primary--text text--accent-4">
+        <v-navigation-drawer v-model="drawer" absolute temporary>
+          <!-- <v-list nav dense>
+            <v-list-item-group
+              v-model="group"
+              active-class="primary--text text--accent-4"
+            >
               <v-list-item>
                 <v-list-item-icon>
                   <v-icon>mdi-home</v-icon>
@@ -29,7 +32,7 @@
                 <v-list-item-title>Account</v-list-item-title>
               </v-list-item>
             </v-list-item-group>
-          </v-list>
+          </v-list> -->
         </v-navigation-drawer>
       </v-card>
     </template>
@@ -41,8 +44,12 @@
             <div class="d-flex justify-center">
               <img src="../../assets/images/logos/PrincipalLogoSinfondo.png" />
             </div>
-            <v-row class="pt-7">
-              <v-col cols="4" v-for="(recipe, index) in recipes" :key="index">
+            <v-row class="pt-7" v-if="me && me.recipes">
+              <v-col
+                cols="4"
+                v-for="(recipe, index) in me.recipes"
+                :key="index"
+              >
                 <CardRecipes :recipe="recipe" />
               </v-col>
             </v-row>
@@ -159,7 +166,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { namespace } from "vuex-class";
-import { CreateRecipeInput, LoginInput, Recipe } from "~/gql/graphql";
+import { CreateRecipeInput, LoginInput, Recipe, User } from "~/gql/graphql";
 import CardRecipes from "~/components/CardRecipes.vue";
 
 const RecipesModule = namespace("RecipesModule");
@@ -168,6 +175,7 @@ const Auth = namespace("AuthModule");
   components: { CardRecipes },
 })
 export default class Principal extends Vue {
+  public drawer = false;
   public dialog2 = false;
   public dropdown_edit = [
     { text: "Vegetariana", value: 1 },
@@ -196,7 +204,7 @@ export default class Principal extends Vue {
   @RecipesModule.Action
   private fetchRecipes!: () => Promise<void>;
   async created() {
-    await this.fetchRecipes();
+    await this.fetchMe();
   }
   @RecipesModule.Action
   private CreateRecipes!: (data: CreateRecipeInput) => Promise<void>;
@@ -213,6 +221,10 @@ export default class Principal extends Vue {
   public snackbarSucessMessageCreateRecipe?: string;
   @RecipesModule.Action
   private changeStatusSnackbarCreateRecipe!: () => void;
+  @Auth.State("me")
+  private me!: User;
+  @Auth.Action
+  private fetchMe!: () => Promise<void>;
 }
 </script>
 

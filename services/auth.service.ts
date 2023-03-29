@@ -34,7 +34,7 @@ class AuthService {
         query: CurrentUser,
         fetchPolicy: "network-only",
       })
-    ).data;
+    ).data.currentUser;
   }
 }
 export default new AuthService();

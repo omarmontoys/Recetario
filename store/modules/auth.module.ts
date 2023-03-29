@@ -7,7 +7,7 @@ import AuthService from "~/services/auth.service";
 
 @Module({ namespaced: true })
 class AuthModule extends VuexModule {
-  public user?: User = undefined;
+  public me?: User = undefined;
   public loadingLoginStatus = false;
   public loadingRegisterStatus = false;
   public errorMessage?: string = undefined;
@@ -40,7 +40,20 @@ class AuthModule extends VuexModule {
   logOut(): void {
     this.context.commit("removeCookies");
   }
-
+  @Action
+  async fetchMe() {
+    this.context.commit("loadingUser", true);
+    return await AuthService.currentUser()
+      .then((user: User) => {
+        console.log(user);
+        this.context.commit("userSuccess", user);
+        this.context.commit("loadingUser", false);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        this.context.commit("loadingUser", false);
+      });
+  }
   @Action
   async login(data: LoginInput) {
     this.context.commit("loadingLogin", true);
@@ -82,7 +95,15 @@ class AuthModule extends VuexModule {
         window.$nuxt.$router.push("/");
       });
   }
-
+  @Mutation
+  public userSuccess(user: User): void {
+    console.log(user);
+    this.me = user;
+  }
+  @Mutation
+  public loadingUser(status: boolean) {
+    this.loadingLoginStatus = status;
+  }
   @Mutation
   public loginSuccess(auth: Auth): void {
     console.log(auth);
