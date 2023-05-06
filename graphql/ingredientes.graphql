@@ -1,0 +1,7 @@
+query Ingredients {
+  ingredients {
+    name
+    type
+    id
+  }
+}

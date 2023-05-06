@@ -1,4 +1,5 @@
 import { ApolloError } from "@apollo/client";
+import Vue from "vue";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { Auth, CreateUserInput, LoginInput, User } from "~/gql/graphql";
 import authService from "~/services/auth.service";
@@ -54,6 +55,37 @@ class AuthModule extends VuexModule {
         this.context.commit("loadingUser", false);
       });
   }
+
+  @Mutation
+  public setDeleteRecipe(data: { id: string }) {
+    console.log("LLego setDelete");
+    if (this.me) {
+      const index = this.me.recipes.findIndex((recipe) => {
+        return recipe.id === data.id;
+      });
+      if (index !== -1) {
+        const copyUser = { ...this.me };
+        copyUser.recipes = [...copyUser.recipes];
+
+        Vue.delete(copyUser.recipes, index);
+        this.me = copyUser;
+      }
+    }
+
+    /*    if (this.recipes) {
+      console.log("entro");
+
+      const index = this.recipes?.findIndex((recipe) => {
+        return recipe.id === data.id;
+      });
+      if (index !== -1) {
+        const copyTask = [...this.recipes];
+        Vue.delete(copyTask, index);
+        this.recipes = copyTask;
+      }
+    } */
+  }
+
   @Action
   async login(data: LoginInput) {
     this.context.commit("loadingLogin", true);
@@ -97,7 +129,7 @@ class AuthModule extends VuexModule {
   }
   @Mutation
   public userSuccess(user: User): void {
-    console.log(user);
+    //console.log(user);
     this.me = user;
   }
   @Mutation
@@ -106,7 +138,7 @@ class AuthModule extends VuexModule {
   }
   @Mutation
   public loginSuccess(auth: Auth): void {
-    console.log(auth);
+    // console.log(auth);
     window.$nuxt.$cookies.set("token", auth.token, {
       path: "/",
     });

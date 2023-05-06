@@ -1,9 +1,16 @@
 import { apolloClient } from "@/provider/apolloprovider";
 import {
+  CreateAllergy,
+  CreateAllergyInput,
+  CreateIngredient,
+  CreateIngredientInput,
   CreateRecipe,
   CreateRecipeInput,
+  DeleteRecipe,
+  Ingredients,
   Recipe,
   Recipes,
+  User,
 } from "~/gql/graphql";
 
 class RecipesService {
@@ -14,6 +21,14 @@ class RecipesService {
         fetchPolicy: "network-only",
       })
     ).data.recipes;
+  }
+  async getIngredients() {
+    return (
+      await apolloClient.query({
+        query: Ingredients,
+        fetchPolicy: "network-only",
+      })
+    ).data.ingredients;
   }
   async getRecipe(id: string) {
     return (
@@ -26,6 +41,17 @@ class RecipesService {
       })
     ).data;
   }
+  async deleteRecipe(recipeId: string): Promise<Recipe> {
+    console.log("mutacion " + recipeId);
+    return (
+      await apolloClient.mutate({
+        mutation: DeleteRecipe,
+        variables: {
+          id: recipeId,
+        },
+      })
+    ).data?.deleteRecipe;
+  }
   async createRecipe(data: CreateRecipeInput) {
     return (
       await apolloClient.mutate({
@@ -36,6 +62,29 @@ class RecipesService {
         },
       })
     ).data.createRecipe;
+  }
+  async createAllergy(data: CreateAllergyInput) {
+    return (
+      await apolloClient.mutate({
+        mutation: CreateAllergy,
+        fetchPolicy: "network-only",
+        variables: {
+          create: data,
+        },
+      })
+    ).data.createAllergy;
+  }
+
+  async createIngredient(data: CreateIngredientInput) {
+    return (
+      await apolloClient.mutate({
+        mutation: CreateIngredient,
+        fetchPolicy: "network-only",
+        variables: {
+          create: data,
+        },
+      })
+    ).data.createIngredient;
   }
 }
 

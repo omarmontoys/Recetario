@@ -1,0 +1,6 @@
+query Allergy($id: ID!) {
+  allergy(id: $id) {
+    allergyTo
+    userId
+  }
+}

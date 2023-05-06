@@ -1,0 +1,6 @@
+mutation DeleteAllergy($delete: ID!) {
+  deleteAllergy(delete: $delete) {
+    allergyTo
+    userId
+  }
+}

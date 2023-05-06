@@ -1,10 +1,11 @@
-query Users{
+query Users {
   users {
     id
     names
     lastNames
     email
     recipes {
+      id
       title
       description
       ingredients

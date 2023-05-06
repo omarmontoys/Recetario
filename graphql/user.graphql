@@ -1,11 +1,11 @@
-
-query User($id: ID!){
+query User($id: ID!) {
   user(id: $id) {
     id
     names
     lastNames
     email
     recipes {
+      id
       title
       description
       ingredients
@@ -14,6 +14,10 @@ query User($id: ID!){
       nutritionCategory
       portions
       authorId
+    }
+    allergies {
+      allergyTo
+      userId
     }
   }
 }

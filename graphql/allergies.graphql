@@ -1,0 +1,6 @@
+query Allergies {
+  allergies {
+    allergyTo
+    userId
+  }
+}
