@@ -1,0 +1,6 @@
+mutation DeleteIngredient($id: ID!) {
+  deleteIngredient(delete: $id) {
+    name
+    type
+  }
+}

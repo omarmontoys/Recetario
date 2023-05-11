@@ -1,0 +1,6 @@
+mutation CreateAllergy($create: CreateAllergyInput!) {
+  createAllergy(create: $create) {
+    allergyTo
+    userId
+  }
+}

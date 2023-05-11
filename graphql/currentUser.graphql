@@ -1,10 +1,11 @@
-query CurrentUser{
+query CurrentUser {
   currentUser {
     id
     names
     lastNames
     email
     recipes {
+      id
       title
       description
       ingredients
@@ -13,6 +14,10 @@ query CurrentUser{
       nutritionCategory
       portions
       authorId
+    }
+    allergies {
+      allergyTo
+      userId
     }
   }
 }

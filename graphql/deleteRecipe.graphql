@@ -1,9 +1,11 @@
-query Recipes {
-  recipes {
+mutation DeleteRecipe($id: ID!) {
+  deleteRecipe(delete: $id) {
     id
     title
     description
     ingredients
+    amountIngredients
+    unitIngredients
     process
     timeCategory
     nutritionCategory

@@ -1,0 +1,7 @@
+query Ingredient($id: ID!) {
+  ingredient(id: $id) {
+    name
+    type
+    id
+  }
+}
