@@ -98,6 +98,15 @@ declare module '*/ingredientes.graphql' {
 }
     
 
+declare module '*/ingredientsFromList.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const IngredientsFromList: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/login.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

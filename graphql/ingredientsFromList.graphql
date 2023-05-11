@@ -1,0 +1,7 @@
+query IngredientsFromList($ids: [ID!]!) {
+  ingredientsFromList(ids: $ids) {
+    id
+    name
+    type
+  }
+}

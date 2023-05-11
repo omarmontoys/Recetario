@@ -36,6 +36,7 @@ class RecipesModule extends VuexModule {
   public loadingdelete = false;
   public successdelete = false;
   public allergyQuery: Allergy[] | null = null;
+  public ingredientsTranslated: Ingredient[] | null = null;
   @Mutation
   public setLoadingDelete(status: boolean) {
     this.loadingdelete = status;
@@ -43,6 +44,18 @@ class RecipesModule extends VuexModule {
   @Mutation
   public setSuccessDelete(status: boolean) {
     this.successdelete = status;
+  }
+
+  @Mutation
+  public setTranslateIngredients(ingredients: Ingredient[]) {
+    this.ingredientsTranslated = ingredients;
+  }
+
+  @Action
+  async translateIngredients(ids: number[]) {
+    return await RecipesService.ingredientsFromList(ids).then((result) => {
+      this.context.commit("setTranslateIngredients", result);
+    });
   }
 
   @Action

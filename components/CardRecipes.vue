@@ -28,6 +28,7 @@
               rounded
               text
               v-model="dialog"
+              @click="sendTranslateIngredients()"
             >
               Mas informacion
             </v-btn>
@@ -48,8 +49,9 @@
               <h3>Descrpcion</h3>
               <h5>{{ recipe.description }}</h5>
               <h3>Ingredientes</h3>
-              <h5>{{ recipe.ingredients }}</h5>
-
+              <h5 v-for="(item, index) in ingredientsTranslated" :key="item.id">
+                {{ item.name }}
+              </h5>
               <h3>Procedimiento</h3>
               <h5>{{ recipe.process }}</h5>
 
@@ -178,7 +180,12 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { namespace } from "vuex-class";
-import { DeleteRecipeMutation, Recipe } from "~/gql/graphql";
+import {
+  DeleteRecipeMutation,
+  Ingredient,
+  IngredientsFromList,
+  Recipe,
+} from "~/gql/graphql";
 import { Prop } from "vue-property-decorator";
 
 const RecipesModule = namespace("RecipesModule");
@@ -193,11 +200,25 @@ export default class CardRecipes extends Vue {
   public recipe!: Recipe;
 
   @RecipesModule.Action
+  private translateIngredients!: (ids: number[]) => Promise<void>;
+
+  @RecipesModule.Action
   private deleteRecipe!: (data: { id: string }) => Promise<void>;
   async handleDeleteRecipe(Recipe: { id: string }) {
     await this.deleteRecipe(Recipe);
     this.dialog3 = false;
     this.dialog = false;
   }
+
+  @RecipesModule.State("ingredientsTranslated")
+  public ingredientsTranslated!: Ingredient;
+
+  async sendTranslateIngredients() {
+    await this.translateIngredients(this.recipe.ingredients);
+  }
+
+  /*   async mounted() {
+    await this.translateIngredients(this.recipe.ingredients);
+  } */
 }
 </script>

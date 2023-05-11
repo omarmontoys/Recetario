@@ -8,6 +8,7 @@ import {
   CreateRecipeInput,
   DeleteRecipe,
   Ingredients,
+  IngredientsFromList,
   Recipe,
   Recipes,
   User,
@@ -85,6 +86,18 @@ class RecipesService {
         },
       })
     ).data.createIngredient;
+  }
+
+  async ingredientsFromList(ids: number[]) {
+    return (
+      await apolloClient.mutate({
+        mutation: IngredientsFromList,
+        fetchPolicy: "network-only",
+        variables: {
+          ids,
+        },
+      })
+    ).data.ingredientsFromList;
   }
 }
 
