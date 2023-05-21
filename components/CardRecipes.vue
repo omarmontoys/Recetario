@@ -13,7 +13,6 @@
         readonly
         class="mr-2"
       ></v-rating>
-      <span class="primary--text text-subtitle-2">64 Reviews</span>
     </v-card-title>
     <v-card-actions>
       <div class="text-center">
@@ -49,11 +48,14 @@
               <h3>Descrpcion</h3>
               <h5>{{ recipe.description }}</h5>
               <h3>Ingredientes</h3>
+
               <h5 v-for="(item, index) in ingredientsTranslated" :key="item.id">
                 {{ item.name }}
               </h5>
               <h3>Procedimiento</h3>
-              <h5>{{ recipe.process }}</h5>
+              <h5 v-for="(process, index) in recipe.process">
+                {{ index + 1 }} - {{ process }}
+              </h5>
 
               <h3>Porciones</h3>
               <h5>{{ recipe.portions }}</h5>
