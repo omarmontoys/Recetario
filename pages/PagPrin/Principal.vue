@@ -336,7 +336,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="red" text @click="dialog4 = false"> Cancelar </v-btn>
-          <v-btn color="primary" text @click="handleCreateAllergy()">
+          <v-btn color="primary" text @click="handleUpdateAllergy()">
             Guardar
           </v-btn>
         </v-card-actions>
@@ -403,13 +403,13 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import {
-  CreateAllergyInput,
   CreateIngredientInput,
   CreateRecipeInput,
   Ingredient,
   Ingredients,
   Recipe,
   Recipes,
+  UpdateAllergyInput,
   User,
 } from "~/gql/graphql";
 import CardRecipes from "~/components/CardRecipes.vue";
@@ -424,6 +424,8 @@ const Auth = namespace("AuthModule");
   },
 })
 export default class Principal extends Vue {
+  selectedTasks: any;
+  task: any;
   remove(item: any) {
     throw new Error("Method not implemented.");
   }
@@ -486,22 +488,14 @@ export default class Principal extends Vue {
     { text: "Tipos", value: "type" },
   ];
   public desserts = [{}];
-
-  public people = [
-    { header: "Group 1" },
-    { name: "Jitomate" },
-    { name: "Cebolla" },
-    { name: "Limon" },
-    { name: "Ajo" },
-  ];
   public dropdown_edit2 = [
     { text: "Desayuno", value: 1 },
     { text: "Comida", value: 2 },
     { text: "Cena", value: 3 },
     { text: "Postre", value: 4 },
   ];
-  public AllergyInput2: CreateAllergyInput = {
-    allergyTo: [],
+  public AllergyInput2: UpdateAllergyInput = {
+    idUser: "",
   };
   public recipeInput: CreateRecipeInput = {
     description: "",
@@ -617,17 +611,20 @@ export default class Principal extends Vue {
     await this.CreateRecipes(data);
     this.dialog2 = false;
   }
-
   @RecipesModule.Action
-  private createAllergy!: (data: CreateAllergyInput) => Promise<void>;
-  async handleCreateAllergy() {
+  private updateAllergy!: (data: UpdateAllergyInput) => Promise<void>;
+  async handleUpdateAllergy() {
     for (let i = 0; i < this.selectedIngredients.length; i++) {
       this.selectedIngredients[i] = Number(this.selectedIngredients[i]);
     }
-    await this.createAllergy({
-      allergyTo: this.selectedIngredients,
+    await this.updateAllergy({
+      idUser: this.me.id,
+      ingredients: this.selectedIngredients,
     });
+    console.log(this.me.id);
+    console.log(this.selectedIngredients);
     this.dialog4 = false;
+    this.selectedIngredients = [];
   }
   async removee(item: { id: number; type: number }) {
     console.log(item);

@@ -1,0 +1,9 @@
+mutation CreateGroup($create: CreateGroupInput!) {
+  createGroup(create: $create) {
+    id
+    name
+    usersId
+    recipesId
+    authorId
+  }
+}

@@ -1,7 +1,5 @@
 import { apolloClient } from "@/provider/apolloprovider";
 import {
-  CreateAllergy,
-  CreateAllergyInput,
   CreateIngredient,
   CreateIngredientInput,
   CreateRecipe,
@@ -11,6 +9,10 @@ import {
   IngredientsFromList,
   Recipe,
   Recipes,
+  UpdateAllergyInput,
+  UpdateAllergyUser,
+  UpdateReviewRecipe,
+  UpdateReviewRecipeInput,
   User,
 } from "~/gql/graphql";
 
@@ -22,6 +24,14 @@ class RecipesService {
         fetchPolicy: "network-only",
       })
     ).data.recipes;
+  }
+  async getReview() {
+    return (
+      await apolloClient.query({
+        query: Recipe,
+        fetchPolicy: "network-only",
+      })
+    ).data.reviews;
   }
   async getIngredients() {
     return (
@@ -64,16 +74,27 @@ class RecipesService {
       })
     ).data.createRecipe;
   }
-  async createAllergy(data: CreateAllergyInput) {
+  async updateAllergy(data: UpdateAllergyInput) {
     return (
       await apolloClient.mutate({
-        mutation: CreateAllergy,
+        mutation: UpdateAllergyUser,
         fetchPolicy: "network-only",
         variables: {
-          create: data,
+          update: data,
         },
       })
-    ).data.createAllergy;
+    ).data.UpdateAllergyUser;
+  }
+  async updateReview(data: UpdateReviewRecipeInput) {
+    return (
+      await apolloClient.mutate({
+        mutation: UpdateReviewRecipe,
+        fetchPolicy: "network-only",
+        variables: {
+          update: data,
+        },
+      })
+    ).data.updateReviewRecipe;
   }
 
   async createIngredient(data: CreateIngredientInput) {

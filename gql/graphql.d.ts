@@ -20,7 +20,16 @@ declare module '*/allergy.graphql' {
 declare module '*/createAllergy.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
-  export const CreateAllergy: DocumentNode;
+  export const UpdateAllergyUser: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/createGroup.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CreateGroup: DocumentNode;
 
   export default defaultDocument;
 }
@@ -75,6 +84,15 @@ declare module '*/deleteRecipe.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const DeleteRecipe: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/group.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const Group: DocumentNode;
 
   export default defaultDocument;
 }
@@ -138,6 +156,24 @@ declare module '*/registerUser.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const RegisterUser: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/updateGroup.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateGroup: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/updateReview.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateReviewRecipe: DocumentNode;
 
   export default defaultDocument;
 }

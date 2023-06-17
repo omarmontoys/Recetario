@@ -1,0 +1,8 @@
+mutation UpdateReviewRecipe($update: UpdateReviewRecipeInput!) {
+  updateReviewRecipe(update: $update) {
+    id
+    rating
+    recipeId
+    authorId
+  }
+}

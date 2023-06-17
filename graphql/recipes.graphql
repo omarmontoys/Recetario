@@ -9,5 +9,8 @@ query Recipes {
     nutritionCategory
     portions
     authorId
+    reviews {
+      rating
+    }
   }
 }

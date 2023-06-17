@@ -50,7 +50,7 @@ export default {
           info: "#F18E4C",
           warning: "#E5AB86",
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
+          success: "#d7a381",
         },
       },
     },

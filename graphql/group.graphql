@@ -1,0 +1,28 @@
+query Group($id: ID!) {
+  group(id: $id) {
+    id
+    name
+    usersId
+    recipesId
+    authorId
+    groupRecipes {
+      id
+      title
+      description
+      ingredients
+      amountIngredients
+      unitIngredients
+      process
+      timeCategory
+      nutritionCategory
+      portions
+      authorId
+      reviews {
+        authorId
+        id
+        rating
+        recipeId
+      }
+    }
+  }
+}

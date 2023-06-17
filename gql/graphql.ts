@@ -16,12 +16,19 @@ export type AllergyQueryVariables = Exact<{
 
 export type AllergyQuery = { __typename?: 'Query', allergy: { __typename?: 'Allergy', allergyTo: Array<number>, userId: string } };
 
-export type CreateAllergyMutationVariables = Exact<{
-  create: CreateAllergyInput;
+export type UpdateAllergyUserMutationVariables = Exact<{
+  update: UpdateAllergyInput;
 }>;
 
 
-export type CreateAllergyMutation = { __typename?: 'Mutation', createAllergy: { __typename?: 'Allergy', allergyTo: Array<number>, userId: string } };
+export type UpdateAllergyUserMutation = { __typename?: 'Mutation', updateAllergyUser: { __typename?: 'Allergy', id: string, allergyTo: Array<number>, userId: string } };
+
+export type CreateGroupMutationVariables = Exact<{
+  create: CreateGroupInput;
+}>;
+
+
+export type CreateGroupMutation = { __typename?: 'Mutation', createGroup: { __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string } };
 
 export type CreateIngredientMutationVariables = Exact<{
   create: CreateIngredientInput;
@@ -40,7 +47,7 @@ export type CreateRecipeMutation = { __typename?: 'Mutation', createRecipe: { __
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, names: string, lastNames: string, email: string, recipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string }>, allergies: Array<{ __typename?: 'Allergy', allergyTo: Array<number>, userId: string }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, names: string, lastNames: string, email: string, recipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', rating: number }> }>, allergies: Array<{ __typename?: 'Allergy', allergyTo: Array<number>, userId: string }>, groups: Array<{ __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string, groupRecipes: Array<{ __typename?: 'Recipe', amountIngredients: Array<number>, authorId: string, description: string, id: string, ingredients: Array<number>, nutritionCategory: number, portions: number, process: Array<string>, timeCategory: number, title: string, unitIngredients: Array<number>, reviews: Array<{ __typename?: 'Review', authorId: string, id: string, rating: number, recipeId: string }> }> }> } };
 
 export type DeleteAllergyMutationVariables = Exact<{
   delete: Scalars['ID'];
@@ -62,6 +69,13 @@ export type DeleteRecipeMutationVariables = Exact<{
 
 
 export type DeleteRecipeMutation = { __typename?: 'Mutation', deleteRecipe: { __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, amountIngredients: Array<number>, unitIngredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string } };
+
+export type GroupQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string, groupRecipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, amountIngredients: Array<number>, unitIngredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', authorId: string, id: string, rating: number, recipeId: string }> }> } };
 
 export type IngredientQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -94,12 +108,12 @@ export type RecipeQueryVariables = Exact<{
 }>;
 
 
-export type RecipeQuery = { __typename?: 'Query', recipe: { __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string } };
+export type RecipeQuery = { __typename?: 'Query', recipe: { __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', rating: number }> } };
 
 export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string }> };
+export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', rating: number }> }> };
 
 export type RegisterUserMutationVariables = Exact<{
   create: CreateUserInput;
@@ -108,17 +122,31 @@ export type RegisterUserMutationVariables = Exact<{
 
 export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'User', id: string, names: string, lastNames: string, email: string, recipes: Array<{ __typename?: 'Recipe', title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string }> } };
 
+export type UpdateGroupMutationVariables = Exact<{
+  update: UpdateGroupInput;
+}>;
+
+
+export type UpdateGroupMutation = { __typename?: 'Mutation', updateGroup: { __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string } };
+
+export type UpdateReviewRecipeMutationVariables = Exact<{
+  update: UpdateReviewRecipeInput;
+}>;
+
+
+export type UpdateReviewRecipeMutation = { __typename?: 'Mutation', updateReviewRecipe: { __typename?: 'Review', id: string, rating: number, recipeId: string, authorId: string } };
+
 export type UserQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, names: string, lastNames: string, email: string, recipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string }>, allergies: Array<{ __typename?: 'Allergy', allergyTo: Array<number>, userId: string }> } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, names: string, lastNames: string, email: string } };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, names: string, lastNames: string, email: string, recipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string }> }> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, names: string, lastNames: string, email: string }> };
 
 
 export const Allergies = gql`
@@ -137,11 +165,23 @@ export const Allergy = gql`
   }
 }
     `;
-export const CreateAllergy = gql`
-    mutation CreateAllergy($create: CreateAllergyInput!) {
-  createAllergy(create: $create) {
+export const UpdateAllergyUser = gql`
+    mutation UpdateAllergyUser($update: UpdateAllergyInput!) {
+  updateAllergyUser(update: $update) {
+    id
     allergyTo
     userId
+  }
+}
+    `;
+export const CreateGroup = gql`
+    mutation CreateGroup($create: CreateGroupInput!) {
+  createGroup(create: $create) {
+    id
+    name
+    usersId
+    recipesId
+    authorId
   }
 }
     `;
@@ -185,10 +225,39 @@ export const CurrentUser = gql`
       nutritionCategory
       portions
       authorId
+      reviews {
+        rating
+      }
     }
     allergies {
       allergyTo
       userId
+    }
+    groups {
+      id
+      name
+      usersId
+      recipesId
+      authorId
+      groupRecipes {
+        amountIngredients
+        authorId
+        description
+        id
+        ingredients
+        nutritionCategory
+        portions
+        process
+        reviews {
+          authorId
+          id
+          rating
+          recipeId
+        }
+        timeCategory
+        title
+        unitIngredients
+      }
     }
   }
 }
@@ -223,6 +292,36 @@ export const DeleteRecipe = gql`
     nutritionCategory
     portions
     authorId
+  }
+}
+    `;
+export const Group = gql`
+    query Group($id: ID!) {
+  group(id: $id) {
+    id
+    name
+    usersId
+    recipesId
+    authorId
+    groupRecipes {
+      id
+      title
+      description
+      ingredients
+      amountIngredients
+      unitIngredients
+      process
+      timeCategory
+      nutritionCategory
+      portions
+      authorId
+      reviews {
+        authorId
+        id
+        rating
+        recipeId
+      }
+    }
   }
 }
     `;
@@ -273,6 +372,9 @@ export const Recipe = gql`
     nutritionCategory
     portions
     authorId
+    reviews {
+      rating
+    }
   }
 }
     `;
@@ -288,6 +390,9 @@ export const Recipes = gql`
     nutritionCategory
     portions
     authorId
+    reviews {
+      rating
+    }
   }
 }
     `;
@@ -311,6 +416,27 @@ export const RegisterUser = gql`
   }
 }
     `;
+export const UpdateGroup = gql`
+    mutation UpdateGroup($update: UpdateGroupInput!) {
+  updateGroup(update: $update) {
+    id
+    name
+    usersId
+    recipesId
+    authorId
+  }
+}
+    `;
+export const UpdateReviewRecipe = gql`
+    mutation UpdateReviewRecipe($update: UpdateReviewRecipeInput!) {
+  updateReviewRecipe(update: $update) {
+    id
+    rating
+    recipeId
+    authorId
+  }
+}
+    `;
 export const User = gql`
     query User($id: ID!) {
   user(id: $id) {
@@ -318,21 +444,6 @@ export const User = gql`
     names
     lastNames
     email
-    recipes {
-      id
-      title
-      description
-      ingredients
-      process
-      timeCategory
-      nutritionCategory
-      portions
-      authorId
-    }
-    allergies {
-      allergyTo
-      userId
-    }
   }
 }
     `;
@@ -343,17 +454,6 @@ export const Users = gql`
     names
     lastNames
     email
-    recipes {
-      id
-      title
-      description
-      ingredients
-      process
-      timeCategory
-      nutritionCategory
-      portions
-      authorId
-    }
   }
 }
     `;
@@ -364,7 +464,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  DateTime: any;
 };
 
 /** Campos de una alergia. */
@@ -372,6 +471,8 @@ export type Allergy = {
   __typename?: 'Allergy';
   /** Ingredientes a los que es alergico. */
   allergyTo: Array<Scalars['Int']>;
+  /** Id de la alergia. */
+  id: Scalars['ID'];
   /** Id del user alergico. */
   userId: Scalars['ID'];
 };
@@ -391,6 +492,12 @@ export type CreateAllergyInput = {
   allergyTo: Array<Scalars['Int']>;
 };
 
+/** Entradas para crear un grupo.  */
+export type CreateGroupInput = {
+  /** Nombre del grupo. */
+  name: Scalars['String'];
+};
+
 /** Entradas para el registro de un ingrediente. */
 export type CreateIngredientInput = {
   /** Nombre del ingrediente. */
@@ -402,7 +509,7 @@ export type CreateIngredientInput = {
 /** Entradas para el registro de una receta. */
 export type CreateRecipeInput = {
   /** Cantidad de ingredientes de la receta. */
-  amountIngredients: Array<Scalars['Int']>;
+  amountIngredients: Array<Scalars['Float']>;
   /** Descripción de la receta. */
   description: Scalars['String'];
   /** Ingredientes de la receta. */
@@ -421,18 +528,6 @@ export type CreateRecipeInput = {
   unitIngredients: Array<Scalars['Int']>;
 };
 
-/** Entradas para el registro de una reseña. */
-export type CreateReviewInput = {
-  /** Descripción de la reseña. */
-  description?: InputMaybe<Scalars['String']>;
-  /** Valor de la reseña de una receta. */
-  rating: Scalars['Int'];
-  /** Id de la receta. */
-  recipeId: Scalars['ID'];
-  /** Título de la reseña. */
-  title: Scalars['String'];
-};
-
 /** Entradas para el registro de un usuario. */
 export type CreateUserInput = {
   /** Correo electrónico del usuario. */
@@ -443,6 +538,23 @@ export type CreateUserInput = {
   names: Scalars['String'];
   /** Contraseña del usuario, se necesitan minimo 6 caracteres, 1 mayuscula y 1 número. */
   password: Scalars['String'];
+};
+
+/** Campos para crear un grupo. */
+export type Group = {
+  __typename?: 'Group';
+  /** Id del autor del grupo. */
+  authorId: Scalars['ID'];
+  /** FieldResolver para obtener las recetas de un grupo. */
+  groupRecipes: Array<Recipe>;
+  /** Id del grupo. */
+  id: Scalars['ID'];
+  /** Nombre del grupo. */
+  name: Scalars['String'];
+  /** Id de las recetas. */
+  recipesId: Array<Scalars['Int']>;
+  /** Id de los usuarios. */
+  usersId: Array<Scalars['Int']>;
 };
 
 /** Campos de un ingrediente. */
@@ -468,12 +580,12 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Mutación para crear una alergia. */
   createAllergy: Allergy;
+  /** Mutación para crear un grupo. */
+  createGroup: Group;
   /** Mutación para crear un nuevo ingrediente. */
   createIngredient: Ingredient;
   /** Mutación para crear una receta. */
   createRecipe: Recipe;
-  /** Mutación para crear una reseña. */
-  createReview: Review;
   /** Mutación para eliminar una alergia. */
   deleteAllergy: Allergy;
   /** Mutación para eliminar un ingrediente. */
@@ -486,6 +598,14 @@ export type Mutation = {
   login: Auth;
   /** Mutación para crear un nuevo ususario. */
   registerUser: User;
+  /** Mutación para actualizar una alergia. */
+  updateAllergyUser: Allergy;
+  /** Mutación para actualizar un grupo. */
+  updateGroup: Group;
+  /** Mutación para actualizar una receta. */
+  updateRecipe: Recipe;
+  /** Mutación para actualizar una review. */
+  updateReviewRecipe: Review;
   /** Mutación para actualizar un usuario */
   updateUser: User;
 };
@@ -496,6 +616,11 @@ export type MutationCreateAllergyArgs = {
 };
 
 
+export type MutationCreateGroupArgs = {
+  create: CreateGroupInput;
+};
+
+
 export type MutationCreateIngredientArgs = {
   create: CreateIngredientInput;
 };
@@ -503,11 +628,6 @@ export type MutationCreateIngredientArgs = {
 
 export type MutationCreateRecipeArgs = {
   create: CreateRecipeInput;
-};
-
-
-export type MutationCreateReviewArgs = {
-  create: CreateReviewInput;
 };
 
 
@@ -541,6 +661,26 @@ export type MutationRegisterUserArgs = {
 };
 
 
+export type MutationUpdateAllergyUserArgs = {
+  update: UpdateAllergyInput;
+};
+
+
+export type MutationUpdateGroupArgs = {
+  update: UpdateGroupInput;
+};
+
+
+export type MutationUpdateRecipeArgs = {
+  update: UpdateRecipeInput;
+};
+
+
+export type MutationUpdateReviewRecipeArgs = {
+  update: UpdateReviewRecipeInput;
+};
+
+
 export type MutationUpdateUserArgs = {
   update: UpdateUserInput;
 };
@@ -552,6 +692,10 @@ export type Query = {
   /** Query para ver una alergia. */
   allergy: Allergy;
   currentUser: User;
+  /** Query para obtener un grupo por su id. */
+  group: Group;
+  /** Query para obtener todos los grupos. */
+  groups: Array<Group>;
   /** Query para ver un ingrediente en especifico. */
   ingredient: Ingredient;
   /** Query para ver todos los ingredientes. */
@@ -562,12 +706,21 @@ export type Query = {
   recipe: Recipe;
   /** Query para ver tareas. */
   recipes: Array<Recipe>;
+  /** Query para obtener una review por id. */
+  review: Review;
+  /** Query para obtener todas las reviews. */
+  reviews: Array<Review>;
   user: User;
   users: Array<User>;
 };
 
 
 export type QueryAllergyArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGroupArgs = {
   id: Scalars['ID'];
 };
 
@@ -587,6 +740,11 @@ export type QueryRecipeArgs = {
 };
 
 
+export type QueryReviewArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryUserArgs = {
   id: Scalars['ID'];
 };
@@ -595,7 +753,7 @@ export type QueryUserArgs = {
 export type Recipe = {
   __typename?: 'Recipe';
   /** Ingredientes de la receta. */
-  amountIngredients: Array<Scalars['Int']>;
+  amountIngredients: Array<Scalars['Float']>;
   /** Id del autor de la tarea. */
   authorId: Scalars['ID'];
   /** Descripción de la receta. */
@@ -625,18 +783,64 @@ export type Review = {
   __typename?: 'Review';
   /** Id del autor de la reseña. */
   authorId: Scalars['ID'];
-  /** Fecha de creación de la review. */
-  cratedAt: Scalars['DateTime'];
-  /** Descripción de la reseña. */
-  description?: Maybe<Scalars['String']>;
   /** Id de la review. */
   id: Scalars['ID'];
   /** Valor de la reseña de una receta. */
   rating: Scalars['Int'];
   /** Id de la receta de la reseña. */
   recipeId: Scalars['ID'];
-  /** Título de la reseña. */
-  title: Scalars['String'];
+};
+
+/** Entradas para actualizar la alergía de un usuario. */
+export type UpdateAllergyInput = {
+  /** Id del usuario. */
+  idUser: Scalars['ID'];
+  /** Ids de los ingredientes. */
+  ingredients?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+/** Entradas para actualizar los usuarios o recetas en un grupo. */
+export type UpdateGroupInput = {
+  /** Id del grupo. */
+  idGroup: Scalars['ID'];
+  /** Nombre del grupo */
+  name?: InputMaybe<Scalars['String']>;
+  /** Ids de las recetas. */
+  recipesId?: InputMaybe<Array<Scalars['Int']>>;
+  /** Ids de los usuarios. */
+  usersId?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+/** Entradas para actualizar una receta */
+export type UpdateRecipeInput = {
+  /** Cantidad de ingredientes de la receta. */
+  amountIngredients?: InputMaybe<Array<Scalars['Float']>>;
+  /** Descripción de la receta. */
+  description?: InputMaybe<Scalars['String']>;
+  /** Id de la receta */
+  id: Scalars['Float'];
+  /** Ingredientes de la receta. */
+  ingredients?: InputMaybe<Array<Scalars['Int']>>;
+  /** Categoría de platillo según la alimentación. */
+  nutritionCategory?: InputMaybe<Scalars['Int']>;
+  /** Número de porciones que genera la reseta.. */
+  portions?: InputMaybe<Scalars['Int']>;
+  /** Proceso de la receta. */
+  process?: InputMaybe<Array<Scalars['String']>>;
+  /** Categoría de platillo según el tiempo. */
+  timeCategory?: InputMaybe<Scalars['Int']>;
+  /** Título de la receta. */
+  title?: InputMaybe<Scalars['String']>;
+  /** Unidad de medida de ingredientes de la receta. */
+  unitIngredients?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+/** Entradas para actualizar una review. */
+export type UpdateReviewRecipeInput = {
+  /** Valor de la reseña de una receta. */
+  rating: Scalars['Int'];
+  /** Id de la receta. */
+  recipeId: Scalars['ID'];
 };
 
 /** Entradas para el registro de un usuario. */
@@ -658,6 +862,10 @@ export type User = {
   allergies: Array<Allergy>;
   /** Email del usuario. */
   email: Scalars['String'];
+  /** FieldResolver para mostrar las recetas filtradas de un usuario. */
+  filterRecipes: Array<Recipe>;
+  /** FieldResolver para obtener los grupos a los que pertenece un usuario. */
+  groups: Array<Group>;
   /** Id del usuario. */
   id: Scalars['ID'];
   /** Apellidos del usuario. */
@@ -666,4 +874,14 @@ export type User = {
   names: Scalars['String'];
   /** FieldResolver para mostrar las recetas de un usuario. */
   recipes: Array<Recipe>;
+};
+
+
+/** Credenciales del usuario. */
+export type UserFilterRecipesArgs = {
+  allergy?: InputMaybe<Scalars['Float']>;
+  ingredients?: InputMaybe<Array<Scalars['Float']>>;
+  nutrition?: InputMaybe<Scalars['Float']>;
+  rating?: InputMaybe<Scalars['Float']>;
+  time?: InputMaybe<Scalars['Float']>;
 };

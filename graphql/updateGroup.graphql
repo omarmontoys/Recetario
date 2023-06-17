@@ -1,0 +1,9 @@
+mutation UpdateGroup($update: UpdateGroupInput!) {
+  updateGroup(update: $update) {
+    id
+    name
+    usersId
+    recipesId
+    authorId
+  }
+}
