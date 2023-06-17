@@ -1,7 +1,15 @@
 import { ApolloError } from "@apollo/client";
 import Vue from "vue";
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
-import { Auth, CreateUserInput, LoginInput, User } from "~/gql/graphql";
+import {
+  Auth,
+  CreateUserInput,
+  Group,
+  LoginInput,
+  User,
+  Users,
+  UsersQuery,
+} from "~/gql/graphql";
 import authService from "~/services/auth.service";
 
 import AuthService from "~/services/auth.service";
@@ -9,8 +17,10 @@ import AuthService from "~/services/auth.service";
 @Module({ namespaced: true })
 class AuthModule extends VuexModule {
   public me?: User = undefined;
+  public users?: UsersQuery[] = undefined;
   public loadingLoginStatus = false;
   public loadingRegisterStatus = false;
+  public loadingUsersStatus = false;
   public errorMessage?: string = undefined;
 
   @Mutation
@@ -46,7 +56,7 @@ class AuthModule extends VuexModule {
     this.context.commit("loadingUser", true);
     return await AuthService.currentUser()
       .then((user: User) => {
-        console.log(user);
+        //console.log(user);
         this.context.commit("userSuccess", user);
         this.context.commit("loadingUser", false);
       })
@@ -54,6 +64,31 @@ class AuthModule extends VuexModule {
         console.log(error.message);
         this.context.commit("loadingUser", false);
       });
+  }
+
+  @Mutation
+  public CreateSuccess(groups: Group): void {
+    if (this.me) {
+      const copyUser = { ...this.me };
+      copyUser.groups = [...copyUser.groups];
+      copyUser.groups.push(groups);
+      this.me = copyUser;
+    }
+  }
+
+  @Mutation
+  public groupSuccess(data: Group): void {
+    if (this.me) {
+      const index = this.me.groups.findIndex((group) => {
+        return group.id === data.id;
+      });
+      if (index !== -1) {
+        const copyUser = { ...this.me };
+        copyUser.groups = [...copyUser.groups];
+
+        Vue.set(this.me.groups, index, copyUser.groups);
+      }
+    }
   }
 
   @Mutation
@@ -92,7 +127,7 @@ class AuthModule extends VuexModule {
     this.context.commit("resetErrorMessage");
     return await AuthService.login(data)
       .then((auth: Auth) => {
-        console.log(auth);
+        //console.log(auth);
         this.context.commit("loginSuccess", auth);
         this.context.commit("loadingLogin", false);
         window.$nuxt.$router.push("./PagPrin/Principal");
@@ -114,7 +149,7 @@ class AuthModule extends VuexModule {
           password: data.password,
         })
           .then((auth: Auth) => {
-            console.log(auth);
+            //console.log(auth);
             this.context.commit("loginSuccess", auth);
             this.context.commit("loadingRegister", false);
           })
@@ -160,6 +195,33 @@ class AuthModule extends VuexModule {
 
   get isLoadingRegister(): boolean {
     return this.loadingRegisterStatus;
+  }
+  @Action
+  async fetchUsers() {
+    this.context.commit("loadingUsers", true);
+    return await AuthService.getUsers()
+      .then((users: UsersQuery[]) => {
+        console.log(users);
+        this.context.commit("setUsers", users);
+        this.context.commit("loadingUsers", false);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        this.context.commit("loadingUsers", false);
+      });
+  }
+
+  @Mutation
+  public usersSuccess(): void {
+    this.usersSuccess != this.usersSuccess;
+  }
+  @Mutation
+  public loadingUsers(status: boolean) {
+    this.loadingUsersStatus = status;
+  }
+  @Mutation
+  setUsers(users: UsersQuery[]): void {
+    this.users = users;
   }
 }
 export default AuthModule;

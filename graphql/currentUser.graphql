@@ -14,10 +14,39 @@ query CurrentUser {
       nutritionCategory
       portions
       authorId
+      reviews {
+        rating
+      }
     }
     allergies {
       allergyTo
       userId
+    }
+    groups {
+      id
+      name
+      usersId
+      recipesId
+      authorId
+      groupRecipes {
+        amountIngredients
+        authorId
+        description
+        id
+        ingredients
+        nutritionCategory
+        portions
+        process
+        reviews {
+          authorId
+          id
+          rating
+          recipeId
+        }
+        timeCategory
+        title
+        unitIngredients
+      }
     }
   }
 }

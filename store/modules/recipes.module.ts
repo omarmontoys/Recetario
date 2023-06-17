@@ -9,10 +9,12 @@ import {
   Recipes,
   User,
   DeleteRecipe,
-  CreateAllergyInput,
   AllergyQuery,
   Allergy,
   CreateIngredientInput,
+  Review,
+  UpdateAllergyInput,
+  UpdateReviewRecipeInput,
 } from "~/gql/graphql";
 import recipesService from "~/services/recipes.service";
 import RecipesService from "~/services/recipes.service";
@@ -20,13 +22,13 @@ import RecipesService from "~/services/recipes.service";
 @Module({ namespaced: true })
 class RecipesModule extends VuexModule {
   public recipes?: Recipe[] = undefined;
+  public review?: Review[] = undefined;
   public recipe?: Recipe = undefined;
   public ingredients?: Ingredient[] = undefined;
   public id?: Recipe | undefined = undefined;
   public user: User[] | null = null;
   public loadingAllergyStatus = false;
-  public snackbarCreateAllergySuccess = false;
-  public snackbarCreateAllergyMessage = "";
+  public loadingReviewStatus = false;
   public searchAllergies = "";
   public loadingRecipeStatus = false;
   public loadingRecipesStatus = false;
@@ -72,6 +74,19 @@ class RecipesModule extends VuexModule {
       });
   }
   @Action
+  async fetchReview() {
+    this.context.commit("loadingRecipes", true);
+    return await RecipesService.getReview()
+      .then((review: Review[]) => {
+        console.log(review);
+        this.context.commit("recipesSuccess", review);
+        this.context.commit("loadingRecipes", false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  @Action
   async fetchIngredientes() {
     this.context.commit("loadingingredients", true);
     return await RecipesService.getIngredients()
@@ -84,20 +99,7 @@ class RecipesModule extends VuexModule {
         console.log(error);
       });
   }
-  @Action
-  async createAllergy(data: CreateAllergyInput) {
-    this.context.commit("loadingallergy", true);
-    try {
-      const allergy = await RecipesService.createAllergy(data);
-      this.context.commit("allergySuccess", allergy);
-      this.context.commit("loadingallergy", false);
-      this.context.commit("setsnackbarSucessMessageCreateAllergy");
-      this.context.commit("setsnackbarSucessCreateAllergy");
-      return allergy;
-    } catch (error) {
-      console.error(error);
-    }
-  }
+
   @Action
   async CreateRecipes(data: CreateRecipeInput) {
     this.context.commit("loadingCreate", true);
@@ -112,10 +114,6 @@ class RecipesModule extends VuexModule {
       .catch((error) => {
         console.log(error);
       });
-  }
-  @Action
-  public changeStatusSnackbarCreateallergy() {
-    this.context.commit("setsnackbarSucessCreateallergy");
   }
   @Action
   public changeStatusSnackbarCreateRecipe() {
@@ -193,6 +191,21 @@ class RecipesModule extends VuexModule {
       this.recipes = [recipes, ...this.recipes];
     }
   }
+
+  @Action
+  async updateAllergy(data: UpdateAllergyInput) {
+    this.context.commit("loadingallergy", true);
+    console.log(data);
+    try {
+      const allergy = await RecipesService.updateAllergy(data);
+      console.log(allergy);
+      this.context.commit("allergySuccess", allergy);
+      this.context.commit("loadingallergy", false);
+      return allergy;
+    } catch (error) {
+      console.error(error);
+    }
+  }
   @Mutation
   public loadingallergy(): boolean {
     return this.loadingAllergyStatus;
@@ -204,6 +217,33 @@ class RecipesModule extends VuexModule {
   public allergySuccess(allergy: User): void {
     if (this.user) {
       this.user = [allergy, ...this.user];
+    }
+  }
+  @Action
+  async updateReview(data: UpdateReviewRecipeInput) {
+    this.context.commit("loadingReview", true);
+    console.log(data);
+    try {
+      const Review = await RecipesService.updateReview(data);
+      console.log(Review);
+      this.context.commit("reviewSuccess", Review);
+      this.context.commit("loadingReview", false);
+      return Review;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  @Mutation
+  public loadingReview(): boolean {
+    return this.loadingReviewStatus;
+  }
+  get isLoadingReview(): boolean {
+    return this.loadingReviewStatus;
+  }
+  @Mutation
+  public reviewSuccess(Review: Recipe): void {
+    if (this.recipes) {
+      this.recipes = [Review, ...this.recipes];
     }
   }
   @Mutation

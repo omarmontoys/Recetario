@@ -4,16 +4,5 @@ query Users {
     names
     lastNames
     email
-    recipes {
-      id
-      title
-      description
-      ingredients
-      process
-      timeCategory
-      nutritionCategory
-      portions
-      authorId
-    }
   }
 }

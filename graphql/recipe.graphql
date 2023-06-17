@@ -9,5 +9,8 @@ query Recipe($id: ID!) {
     nutritionCategory
     portions
     authorId
+    reviews {
+      rating
+    }
   }
 }
