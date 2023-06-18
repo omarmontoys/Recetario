@@ -5,8 +5,18 @@
         <div class="d-flex justify-center">
           <img src="../../assets/images/logos/PrincipalLogoSinfondo.png" />
         </div>
-        <v-row class="pt-7" v-if="me && me.recipes">
-          <v-col cols="4" v-for="(recipe, index) in me.recipes" :key="index">
+
+        <!-- <v-row class="pt-7" v-if="me && me.recipes">
+              <v-col cols="4" v-for="(recipe, index) in me.recipes" :key="index">
+                <CardRecipes :recipe="recipe" />
+              </v-col>
+            </v-row> -->
+        <v-row class="pt-7" v-if="me && me.filterRecipes">
+          <v-col
+            cols="4"
+            v-for="(recipe, index) in me.filterRecipes"
+            :key="index"
+          >
             <CardRecipes :recipe="recipe" />
           </v-col>
         </v-row>
@@ -564,7 +574,7 @@ export default class Principal extends Vue {
   @RecipesModule.Action
   private fetchRecipes!: () => Promise<void>;
   async created() {
-    await this.fetchMe();
+    await this.fetchMe({});
   }
   @RecipesModule.Action
   private CreateRecipes!: (data: CreateRecipeInput) => Promise<void>;
@@ -735,7 +745,13 @@ export default class Principal extends Vue {
   @Auth.State("me")
   private me!: User;
   @Auth.Action
-  private fetchMe!: () => Promise<void>;
+  private fetchMe!: (data: {
+    allergy?: number;
+    ingredients?: [number];
+    rating?: number;
+    nutrition?: number;
+    time?: number;
+  }) => Promise<void>;
   @RecipesModule.State("ingredients")
   private ingredients!: Ingredient[];
   @RecipesModule.Action

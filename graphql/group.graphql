@@ -1,4 +1,10 @@
-query Group($id: ID!) {
+query Group(
+  $id: ID!
+  $allergy: Float
+  $ingredients: [Float!]
+  $nutrition: Float
+  $time: Float
+) {
   group(id: $id) {
     id
     name
@@ -6,6 +12,30 @@ query Group($id: ID!) {
     recipesId
     authorId
     groupRecipes {
+      amountIngredients
+      authorId
+      description
+      id
+      ingredients
+      nutritionCategory
+      portions
+      process
+      reviews {
+        authorId
+        id
+        rating
+        recipeId
+      }
+      timeCategory
+      title
+      unitIngredients
+    }
+    filterGroupRecipes(
+      allergy: $allergy
+      ingredients: $ingredients
+      nutrition: $nutrition
+      time: $time
+    ) {
       id
       title
       description
@@ -18,10 +48,7 @@ query Group($id: ID!) {
       portions
       authorId
       reviews {
-        authorId
-        id
         rating
-        recipeId
       }
     }
   }

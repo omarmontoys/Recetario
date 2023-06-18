@@ -52,9 +52,21 @@ class AuthModule extends VuexModule {
     this.context.commit("removeCookies");
   }
   @Action
-  async fetchMe() {
+  async fetchMe(data: {
+    allergy?: number;
+    ingredients?: [number];
+    rating?: number;
+    nutrition?: number;
+    time?: number;
+  }) {
     this.context.commit("loadingUser", true);
-    return await AuthService.currentUser()
+    return await AuthService.currentUser(
+      data.allergy,
+      data.ingredients,
+      data.rating,
+      data.nutrition,
+      data.time
+    )
       .then((user: User) => {
         //console.log(user);
         this.context.commit("userSuccess", user);

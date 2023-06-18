@@ -5,11 +5,11 @@
         <div class="d-flex justify-center">
           <img src="../../../assets/images/logos/PrincipalLogoSinfondo.png" />
         </div>
-        <v-row class="pt-7" v-if="group && group.groupRecipes">
+        <v-row class="pt-7" v-if="groups && groups.filterGroupRecipes">
           <v-col
             cols="4"
-            v-for="infoGroup in group.groupRecipes"
-            :key="group.id"
+            v-for="infoGroup in groups.filterGroupRecipes"
+            :key="groups.id"
           >
             <CardRecipes :recipe="infoGroup" />
           </v-col>
@@ -268,7 +268,7 @@ export default class GrupoRecetas extends Vue {
   @RecipesModule.Action
   private fetchRecipes!: () => Promise<void>;
   async created() {
-    await this.fetchMe();
+    await this.fetchMe({});
   }
 
   @GroupModule.Action
@@ -318,7 +318,13 @@ export default class GrupoRecetas extends Vue {
   @Auth.State("me")
   private me!: User;
   @Auth.Action
-  private fetchMe!: () => Promise<void>;
+  private fetchMe!: (data: {
+    allergy?: number;
+    ingredients?: [number];
+    rating?: number;
+    nutrition?: number;
+    time?: number;
+  }) => Promise<void>;
   @RecipesModule.State("ingredients")
   private ingredients!: Ingredient[];
 

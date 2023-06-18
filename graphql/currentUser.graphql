@@ -1,4 +1,10 @@
-query CurrentUser {
+query CurrentUser(
+  $allergy: Float
+  $ingredients: [Float!]
+  $rating: Float
+  $nutrition: Float
+  $time: Float
+) {
   currentUser {
     id
     names
@@ -9,6 +15,28 @@ query CurrentUser {
       title
       description
       ingredients
+      process
+      timeCategory
+      nutritionCategory
+      portions
+      authorId
+      reviews {
+        rating
+      }
+    }
+    filterRecipes(
+      allergy: $allergy
+      ingredients: $ingredients
+      rating: $rating
+      nutrition: $nutrition
+      time: $time
+    ) {
+      id
+      title
+      description
+      ingredients
+      amountIngredients
+      unitIngredients
       process
       timeCategory
       nutritionCategory

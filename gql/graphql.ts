@@ -44,10 +44,16 @@ export type CreateRecipeMutationVariables = Exact<{
 
 export type CreateRecipeMutation = { __typename?: 'Mutation', createRecipe: { __typename?: 'Recipe', authorId: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number } };
 
-export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+export type CurrentUserQueryVariables = Exact<{
+  allergy?: InputMaybe<Scalars['Float']>;
+  ingredients?: InputMaybe<Array<Scalars['Float']> | Scalars['Float']>;
+  rating?: InputMaybe<Scalars['Float']>;
+  nutrition?: InputMaybe<Scalars['Float']>;
+  time?: InputMaybe<Scalars['Float']>;
+}>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, names: string, lastNames: string, email: string, recipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', rating: number }> }>, allergies: Array<{ __typename?: 'Allergy', allergyTo: Array<number>, userId: string }>, groups: Array<{ __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string, groupRecipes: Array<{ __typename?: 'Recipe', amountIngredients: Array<number>, authorId: string, description: string, id: string, ingredients: Array<number>, nutritionCategory: number, portions: number, process: Array<string>, timeCategory: number, title: string, unitIngredients: Array<number>, reviews: Array<{ __typename?: 'Review', authorId: string, id: string, rating: number, recipeId: string }> }> }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, names: string, lastNames: string, email: string, recipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', rating: number }> }>, filterRecipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, amountIngredients: Array<number>, unitIngredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', rating: number }> }>, allergies: Array<{ __typename?: 'Allergy', allergyTo: Array<number>, userId: string }>, groups: Array<{ __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string, groupRecipes: Array<{ __typename?: 'Recipe', amountIngredients: Array<number>, authorId: string, description: string, id: string, ingredients: Array<number>, nutritionCategory: number, portions: number, process: Array<string>, timeCategory: number, title: string, unitIngredients: Array<number>, reviews: Array<{ __typename?: 'Review', authorId: string, id: string, rating: number, recipeId: string }> }> }> } };
 
 export type DeleteAllergyMutationVariables = Exact<{
   delete: Scalars['ID'];
@@ -72,10 +78,14 @@ export type DeleteRecipeMutation = { __typename?: 'Mutation', deleteRecipe: { __
 
 export type GroupQueryVariables = Exact<{
   id: Scalars['ID'];
+  allergy?: InputMaybe<Scalars['Float']>;
+  ingredients?: InputMaybe<Array<Scalars['Float']> | Scalars['Float']>;
+  nutrition?: InputMaybe<Scalars['Float']>;
+  time?: InputMaybe<Scalars['Float']>;
 }>;
 
 
-export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string, groupRecipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, amountIngredients: Array<number>, unitIngredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', authorId: string, id: string, rating: number, recipeId: string }> }> } };
+export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string, groupRecipes: Array<{ __typename?: 'Recipe', amountIngredients: Array<number>, authorId: string, description: string, id: string, ingredients: Array<number>, nutritionCategory: number, portions: number, process: Array<string>, timeCategory: number, title: string, unitIngredients: Array<number>, reviews: Array<{ __typename?: 'Review', authorId: string, id: string, rating: number, recipeId: string }> }>, filterGroupRecipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, amountIngredients: Array<number>, unitIngredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', rating: number }> }> } };
 
 export type IngredientQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -209,7 +219,7 @@ export const CreateRecipe = gql`
 }
     `;
 export const CurrentUser = gql`
-    query CurrentUser {
+    query CurrentUser($allergy: Float, $ingredients: [Float!], $rating: Float, $nutrition: Float, $time: Float) {
   currentUser {
     id
     names
@@ -220,6 +230,28 @@ export const CurrentUser = gql`
       title
       description
       ingredients
+      process
+      timeCategory
+      nutritionCategory
+      portions
+      authorId
+      reviews {
+        rating
+      }
+    }
+    filterRecipes(
+      allergy: $allergy
+      ingredients: $ingredients
+      rating: $rating
+      nutrition: $nutrition
+      time: $time
+    ) {
+      id
+      title
+      description
+      ingredients
+      amountIngredients
+      unitIngredients
       process
       timeCategory
       nutritionCategory
@@ -296,7 +328,7 @@ export const DeleteRecipe = gql`
 }
     `;
 export const Group = gql`
-    query Group($id: ID!) {
+    query Group($id: ID!, $allergy: Float, $ingredients: [Float!], $nutrition: Float, $time: Float) {
   group(id: $id) {
     id
     name
@@ -304,6 +336,30 @@ export const Group = gql`
     recipesId
     authorId
     groupRecipes {
+      amountIngredients
+      authorId
+      description
+      id
+      ingredients
+      nutritionCategory
+      portions
+      process
+      reviews {
+        authorId
+        id
+        rating
+        recipeId
+      }
+      timeCategory
+      title
+      unitIngredients
+    }
+    filterGroupRecipes(
+      allergy: $allergy
+      ingredients: $ingredients
+      nutrition: $nutrition
+      time: $time
+    ) {
       id
       title
       description
@@ -316,10 +372,7 @@ export const Group = gql`
       portions
       authorId
       reviews {
-        authorId
-        id
         rating
-        recipeId
       }
     }
   }
@@ -545,6 +598,8 @@ export type Group = {
   __typename?: 'Group';
   /** Id del autor del grupo. */
   authorId: Scalars['ID'];
+  /** FieldResolver para mostrar las recetas filtradas de un grupo. */
+  filterGroupRecipes: Array<Recipe>;
   /** FieldResolver para obtener las recetas de un grupo. */
   groupRecipes: Array<Recipe>;
   /** Id del grupo. */
@@ -555,6 +610,15 @@ export type Group = {
   recipesId: Array<Scalars['Int']>;
   /** Id de los usuarios. */
   usersId: Array<Scalars['Int']>;
+};
+
+
+/** Campos para crear un grupo. */
+export type GroupFilterGroupRecipesArgs = {
+  allergy?: InputMaybe<Scalars['Float']>;
+  ingredients?: InputMaybe<Array<Scalars['Float']>>;
+  nutrition?: InputMaybe<Scalars['Float']>;
+  time?: InputMaybe<Scalars['Float']>;
 };
 
 /** Campos de un ingrediente. */
