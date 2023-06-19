@@ -195,10 +195,10 @@
                   </template>
                   <v-card>
                     <v-card-title class="text-h5 primary">
-                      Titulo de la receta </v-card-title
+                      Título de la receta </v-card-title
                     ><br />
                     <v-card-text>
-                      <h2>Calificacion de la receta</h2>
+                      <h2>Calificación de la receta</h2>
                       <br />
                       <v-row justify="space-between" align="center">
                         <v-col cols="8">
