@@ -54,7 +54,6 @@
             ><br />
 
             <v-card-text>
-              {{ recipe }}
               <h3>Descrpcion</h3>
               <h5>{{ recipe.description }}</h5>
               <h3>Ingredientes</h3>
@@ -287,7 +286,7 @@
                             </v-chip>
                           </v-col>
                         </v-row>
-                        {{ uniqueIdsTranslated }} <br />
+                        <br />
 
                         <v-row>
                           <v-col>
