@@ -96,7 +96,7 @@
             v-model="recipeInput.title"
           ></v-text-field>
           <v-textarea
-            label="Descrpcion"
+            label="Descripción"
             auto-grow
             outlined
             rows="3"
@@ -207,7 +207,7 @@
             outlined
             v-model.number="recipeInput.portions"
           ></v-text-field>
-          <v-text-field label="Tiempo de preparacion" outlined></v-text-field>
+          <v-text-field label="Tiempo de preparación" outlined></v-text-field>
           <v-autocomplete
             :items="dropdown_edit"
             filled
@@ -217,7 +217,7 @@
           <v-autocomplete
             :items="dropdown_edit2"
             filled
-            label="Posicion en el Menu"
+            label="Posición en el Menú"
             v-model="recipeInput.timeCategory"
             item-value="value"
           ></v-autocomplete>
@@ -726,9 +726,9 @@ export default class Principal extends Vue {
 
   translateType(type: number) {
     if (type === 1) {
-      return "Solido";
+      return "Sólido";
     } else if (type === 2) {
-      return "Liquido";
+      return "Líquido";
     } else if (type === 3) {
       return "Gaseoso";
     }
