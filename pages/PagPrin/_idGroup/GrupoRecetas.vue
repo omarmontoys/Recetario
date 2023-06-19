@@ -286,6 +286,7 @@ export default class GrupoRecetas extends Vue {
       recipesId: this.selectedRecipes,
     });
     this.dialog4 = false;
+    this.dialog2 = false;
     this.selectedUsers = [];
     this.selectedRecipes = [];
   }
