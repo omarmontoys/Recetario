@@ -54,7 +54,7 @@
             ><br />
 
             <v-card-text>
-              <h3>Descrpcion</h3>
+              <h3>Descripción</h3>
               <h5>{{ recipe.description }}</h5>
               <h3>Ingredientes</h3>
 

@@ -251,7 +251,7 @@
                 <h2>Nombre del Grupo</h2>
                 <br />
                 <v-text-field
-                  label="Titulo"
+                  label="Título"
                   outlined
                   v-model="nameGroup"
                 ></v-text-field>
