@@ -85,7 +85,7 @@ export type GroupQueryVariables = Exact<{
 }>;
 
 
-export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string, groupRecipes: Array<{ __typename?: 'Recipe', amountIngredients: Array<number>, authorId: string, description: string, id: string, ingredients: Array<number>, nutritionCategory: number, portions: number, process: Array<string>, timeCategory: number, title: string, unitIngredients: Array<number>, reviews: Array<{ __typename?: 'Review', authorId: string, id: string, rating: number, recipeId: string }> }>, filterGroupRecipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, amountIngredients: Array<number>, unitIngredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string, reviews: Array<{ __typename?: 'Review', rating: number }> }> } };
+export type GroupQuery = { __typename?: 'Query', group: { __typename?: 'Group', id: string, name: string, usersId: Array<number>, recipesId: Array<number>, authorId: string, groupRecipes: Array<{ __typename?: 'Recipe', amountIngredients: Array<number>, authorId: string, description: string, id: string, ingredients: Array<number>, nutritionCategory: number, portions: number, process: Array<string>, timeCategory: number, title: string, unitIngredients: Array<number>, reviews: Array<{ __typename?: 'Review', authorId: string, id: string, rating: number, recipeId: string }> }>, filterGroupRecipes: Array<{ __typename?: 'Recipe', id: string, title: string, description: string, ingredients: Array<number>, amountIngredients: Array<number>, unitIngredients: Array<number>, process: Array<string>, timeCategory: number, nutritionCategory: number, portions: number, authorId: string }> } };
 
 export type IngredientQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -371,9 +371,6 @@ export const Group = gql`
       nutritionCategory
       portions
       authorId
-      reviews {
-        rating
-      }
     }
   }
 }

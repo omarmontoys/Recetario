@@ -47,9 +47,6 @@ query Group(
       nutritionCategory
       portions
       authorId
-      reviews {
-        rating
-      }
     }
   }
 }

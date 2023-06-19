@@ -333,7 +333,9 @@ export default class Dashboard extends Vue {
   @Auth.State("me")
   private me!: User;
   async mounted() {
-    await this.fetchGroup(this.$route.params.idGroup);
+    await this.fetchGroup({
+      id: this.$route.params.idGroup,
+    });
     await this.fetchIngredientes();
     await this.fetchMe({});
     console.log(this.ingredients);
@@ -341,7 +343,7 @@ export default class Dashboard extends Vue {
   async removee(item: { id: number; type: number }) {
     console.log(item);
 
-    const index = this.selectedIngredients.indexOf(item.id);
+    const index = this.selectedIngredients.indexOf(item.id as never);
     if (index >= 0) this.selectedIngredients.splice(index, 1);
   }
 
@@ -370,10 +372,25 @@ export default class Dashboard extends Vue {
       });
       this.dialog1 = false;
     } else {
+      this.fetchGroup({
+        id: this.$route.params.idGroup,
+        allergy: this.selectedAllergies ? 1 : undefined,
+        ingredients:
+          idIngredients.length > 0 ? (idIngredients as [number]) : undefined,
+        nutrition: this.typesFood ? this.typesFood : undefined,
+        time: this.positionMenu ? this.positionMenu : undefined,
+      });
+      this.dialog1 = false;
     }
   }
   @GroupModule.Action
-  private fetchGroup!: (data: string) => Promise<void>;
+  private fetchGroup!: (data: {
+    id: string;
+    allergy?: number;
+    ingredients?: [number];
+    nutrition?: number;
+    time?: number;
+  }) => Promise<void>;
   @GroupModule.State("group")
   private groups!: Group;
   @AuthModule.State("users")

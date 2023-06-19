@@ -30,13 +30,23 @@ class GroupService {
       })
     ).data.updateGroup;
   }
-  async fetchGroup(data: string) {
+  async fetchGroup(
+    data: string,
+    allergy?: number,
+    ingredients?: [number],
+    nutrition?: number,
+    time?: number
+  ) {
     return (
       await apolloClient.query({
         query: Group,
         fetchPolicy: "network-only",
         variables: {
           id: data,
+          allergy,
+          ingredients,
+          nutrition,
+          time,
         },
       })
     ).data.group;
