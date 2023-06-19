@@ -57,9 +57,24 @@ class GroupModule extends VuexModule {
     return this.loadingGroupStatus;
   }
   @Action
-  async fetchGroup(data: string) {
+  async fetchGroup(
+    /*   data: string, */
+    data: {
+      id: string;
+      allergy?: number;
+      ingredients?: [number];
+      nutrition?: number;
+      time?: number;
+    }
+  ) {
     this.context.commit("loadingGroup", true);
-    return await GroupsService.fetchGroup(data)
+    return await GroupsService.fetchGroup(
+      data.id,
+      data.allergy,
+      data.ingredients,
+      data.nutrition,
+      data.time
+    )
       .then((group: Group) => {
         //console.log(recipes);
         this.context.commit("groupSuccess", group);

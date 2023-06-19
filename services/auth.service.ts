@@ -30,11 +30,24 @@ class AuthService {
       })
     ).data;
   }
-  async currentUser() {
+  async currentUser(
+    allergy?: number,
+    ingredients?: [number],
+    rating?: number,
+    nutrition?: number,
+    time?: number
+  ) {
     return (
       await apolloClient.query({
         query: CurrentUser,
         fetchPolicy: "network-only",
+        variables: {
+          allergy,
+          ingredients,
+          rating,
+          nutrition,
+          time,
+        },
       })
     ).data.currentUser;
   }

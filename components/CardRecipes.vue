@@ -287,7 +287,8 @@
                             </v-chip>
                           </v-col>
                         </v-row>
-                        {{ recipe }}
+                        {{ uniqueIdsTranslated }} <br />
+
                         <v-row>
                           <v-col>
                             <v-card>
@@ -304,7 +305,7 @@
                               </v-card-title>
                               <v-data-table
                                 :headers="headers"
-                                :items="cloneIngredients"
+                                :items="uniqueIdsTranslated"
                                 :search="search"
                                 :single-select="true"
                                 v-model="selected"
@@ -337,7 +338,7 @@
                         <template>
                           <v-data-table
                             :headers="headers2"
-                            :items="selectedIngredientsTable"
+                            :items="translateIngredient"
                             sort-by="calories"
                             class="elevation-1"
                           >
@@ -556,6 +557,8 @@ export default class CardRecipes extends Vue {
   @RecipesModule.Action
   private createIngredient!: (data: CreateIngredientInput) => Promise<void>;
   @RecipesModule.Action
+  private translateIngredientEdits!: (ids: number[]) => Promise<Ingredient[]>;
+  @RecipesModule.Action
   private updateReview!: (data: UpdateReviewRecipeInput) => Promise<void>;
   async handleUpdateReview() {
     await this.updateReview({
@@ -572,6 +575,8 @@ export default class CardRecipes extends Vue {
     const index = this.selectedIngredients.indexOf(item.id);
     if (index >= 0) this.selectedIngredients.splice(index, 1);
   }
+
+  public uniqueIdsTranslated = [];
 
   isSelected(item: any) {
     console.log(item);
@@ -671,7 +676,43 @@ export default class CardRecipes extends Vue {
   async mounted() {
     await this.fetchIngredientes();
 
-    console.log(this.ingredients);
+    await this.cutIngredients();
+    await this.translateIngredientSelected();
+  }
+  public translateIngredient = [];
+  async translateIngredientSelected() {
+    try {
+      if (this.recipe) {
+        const uniqueIdsTranslated = await this.translateIngredientEdits(
+          this.recipe.ingredients
+        );
+        this.translateIngredient = uniqueIdsTranslated as never[];
+      }
+    } catch (error) {}
+  }
+
+  async cutIngredients() {
+    try {
+      if (this.ingredients) {
+        const getIds = this.ingredients.map((ingredient) => {
+          return Number(ingredient.id);
+        });
+
+        /*   const combinedIds = [...getIds, ...this.recipe.ingredients];
+      const uniqueIds = combinedIds.filter((value, index, self) => {
+        return self.indexOf(value) === index;
+      });
+      return uniqueIds; */
+
+        const uniqueIds = getIds.filter((value) => {
+          return !this.recipe.ingredients.includes(value);
+        });
+        const uniqueIdsTranslated = await this.translateIngredientEdits(
+          uniqueIds
+        );
+        this.uniqueIdsTranslated = uniqueIdsTranslated as never[];
+      }
+    } catch (error) {}
   }
 
   /*   async mounted() {

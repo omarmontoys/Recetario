@@ -5,10 +5,10 @@
         <div class="d-flex justify-center">
           <img src="../../../assets/images/logos/PrincipalLogoSinfondo.png" />
         </div>
-        <v-row class="pt-7" v-if="group && group.groupRecipes">
+        <v-row class="pt-7" v-if="group && group.filterGroupRecipes">
           <v-col
             cols="4"
-            v-for="infoGroup in group.groupRecipes"
+            v-for="infoGroup in group.filterGroupRecipes"
             :key="group.id"
           >
             <CardRecipes :recipe="infoGroup" />
@@ -268,7 +268,7 @@ export default class GrupoRecetas extends Vue {
   @RecipesModule.Action
   private fetchRecipes!: () => Promise<void>;
   async created() {
-    await this.fetchMe();
+    await this.fetchMe({});
   }
 
   @GroupModule.Action
@@ -318,18 +318,30 @@ export default class GrupoRecetas extends Vue {
   @Auth.State("me")
   private me!: User;
   @Auth.Action
-  private fetchMe!: () => Promise<void>;
+  private fetchMe!: (data: {
+    allergy?: number;
+    ingredients?: [number];
+    rating?: number;
+    nutrition?: number;
+    time?: number;
+  }) => Promise<void>;
   @RecipesModule.State("ingredients")
   private ingredients!: Ingredient[];
 
   @GroupModule.Action
-  private fetchGroup!: (data: string) => Promise<void>;
+  private fetchGroup!: (data: {
+    id: string;
+    allergy?: number;
+    ingredients?: [number];
+    nutrition?: number;
+    time?: number;
+  }) => Promise<void>;
   @GroupModule.State("group")
   private group!: Group;
   @AuthModule.Action
   private fetchUsers!: () => Promise<void>;
   async mounted() {
-    await this.fetchGroup(this.$route.params.idGroup);
+    await this.fetchGroup({ id: this.$route.params.idGroup });
     await this.fetchUsers();
   }
   @AuthModule.State("users")

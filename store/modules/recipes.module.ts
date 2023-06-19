@@ -61,6 +61,14 @@ class RecipesModule extends VuexModule {
   }
 
   @Action
+  async translateIngredientEdits(ids: number[]) {
+    try {
+      const translateIngredient = await RecipesService.ingredientsFromList(ids);
+      return translateIngredient;
+    } catch (err) {}
+  }
+
+  @Action
   async fetchRecipes() {
     this.context.commit("loadingRecipes", true);
     return await RecipesService.getRecipes()

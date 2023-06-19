@@ -73,11 +73,15 @@
         <v-card-text>
           <v-container fluid>
             <v-row justify="space-between">
-              <v-col cols="12" md="4"
+              <v-col
+                cols="12"
+                md="4"
+                v-if="$route.path === '/PagPrin/Principal'"
                 ><h2>Rating</h2>
-                <v-radio-group v-model="column" column>
+
+                <v-radio-group v-model="rating" column>
                   <div class="d-flex align-center">
-                    <v-radio value="rating1"></v-radio
+                    <v-radio :value="1"></v-radio
                     ><v-rating
                       readonly
                       value="1"
@@ -86,7 +90,7 @@
                     ></v-rating>
                   </div>
                   <div class="d-flex align-center">
-                    <v-radio value="rating2"></v-radio
+                    <v-radio :value="2"></v-radio
                     ><v-rating
                       readonly
                       value="2"
@@ -95,7 +99,7 @@
                     ></v-rating>
                   </div>
                   <div class="d-flex align-center">
-                    <v-radio value="rating3"></v-radio
+                    <v-radio :value="3"></v-radio
                     ><v-rating
                       readonly
                       value="3"
@@ -104,7 +108,7 @@
                     ></v-rating>
                   </div>
                   <div class="d-flex align-center">
-                    <v-radio value="rating4"></v-radio
+                    <v-radio :value="4"></v-radio
                     ><v-rating
                       readonly
                       value="4"
@@ -113,7 +117,7 @@
                     ></v-rating>
                   </div>
                   <div class="d-flex align-center">
-                    <v-radio value="rating5"></v-radio
+                    <v-radio :value="5"></v-radio
                     ><v-rating
                       readonly
                       value="5"
@@ -122,33 +126,31 @@
                     ></v-rating>
                   </div> </v-radio-group
               ></v-col>
-              <v-col cols="12" md="6" class="align-center">
+              <v-col
+                cols="12"
+                :md="$route.path === '/PagPrin/Principal' ? 6 : 12"
+                class="align-center"
+              >
                 <h2>Alergias</h2>
-                <v-radio-group v-model="column" column>
-                  <div class="d-flex align-center">
-                    <v-radio value="Alergias"></v-radio>Alergias
-                  </div>
-                  <div class="d-flex align-center">
-                    <v-radio value="SinAlergias"></v-radio>Sin Alergias
-                  </div></v-radio-group
-                >
+                <!--  <v-radio-group v-model="column" column> -->
+                <div class="d-flex align-center">
+                  <v-checkbox v-model="selectedAllergies"></v-checkbox>Alergias
+                </div>
+                <!--     </v-radio-group> -->
                 <v-divider></v-divider>
                 <br />
                 <h2>Tipos de comida</h2>
-                <v-radio-group v-model="column" column>
+                <v-radio-group v-model="typesFood" column>
                   <div class="d-flex align-center">
-                    <v-radio value="Vegetariana"></v-radio>Vegetariana
+                    <v-radio :value="1"></v-radio>Vegetariana
                   </div>
                   <div class="d-flex align-center">
-                    <v-radio value="Vegana"></v-radio>Vegana
+                    <v-radio :value="2"></v-radio>Vegana
                   </div>
                   <div class="d-flex align-center">
-                    <v-radio value="Omnívora"></v-radio>Omnívora
+                    <v-radio :value="3"></v-radio>Omnívora
                   </div>
-                  <div class="d-flex align-center">
-                    <v-radio value="TodoComida"></v-radio>Todo
-                  </div></v-radio-group
-                >
+                </v-radio-group>
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -156,23 +158,20 @@
             <v-row justify="space-between">
               <v-col cols="12" md="4" class="align-center">
                 <h2>Posicion en el menu</h2>
-                <v-radio-group v-model="column" column>
+                <v-radio-group v-model="positionMenu" column>
                   <div class="d-flex align-center">
-                    <v-radio value="Desayuno"></v-radio>Desayuno
+                    <v-radio :value="1"></v-radio>Desayuno
                   </div>
                   <div class="d-flex align-center">
-                    <v-radio value="Comida"></v-radio>Comida
+                    <v-radio :value="2"></v-radio>Comida
                   </div>
                   <div class="d-flex align-center">
-                    <v-radio value="Cena"></v-radio>Cena
+                    <v-radio :value="3"></v-radio>Cena
                   </div>
                   <div class="d-flex align-center">
-                    <v-radio value="Postre"></v-radio>Postre
+                    <v-radio :value="4"></v-radio>Postre
                   </div>
-                  <div class="d-flex align-center">
-                    <v-radio value="TodoMenu"></v-radio>Todo
-                  </div></v-radio-group
-                >
+                </v-radio-group>
               </v-col>
               <v-col cols="12" md="6">
                 <h2>Ingredientes que desea llevar</h2>
@@ -225,7 +224,7 @@
           <v-btn color="red darken-1" text @click="dialog1 = false">
             Cancelar
           </v-btn>
-          <v-btn color="green darken-1" text @click="dialog1 = false">
+          <v-btn color="green darken-1" text @click="handleFilter">
             Confirmar
           </v-btn>
         </v-card-actions>
@@ -287,11 +286,12 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { namespace } from "vuex-class";
-import { CreateGroupInput, Ingredient, User } from "~/gql/graphql";
+import { CreateGroupInput, Group, Ingredient, User } from "~/gql/graphql";
 const RecipesModule = namespace("RecipesModule");
 const Auth = namespace("AuthModule");
 const GroupModule = namespace("GroupModule");
 import CardGroups from "~/components/CardGoups.vue";
+const AuthModule = namespace("AuthModule");
 
 import { mapState } from "vuex";
 
@@ -304,8 +304,11 @@ export default class Dashboard extends Vue {
   public dialog1 = false;
   public dialog2 = false;
   public group = false;
-  public column = null;
-  public selectedIngredients: number[] = [];
+  public rating = 0;
+  public typesFood = 0;
+  public positionMenu = 0;
+  public selectedIngredients = [];
+  public selectedAllergies = false;
   public fav = true;
   public menu = false;
   public message = false;
@@ -320,18 +323,27 @@ export default class Dashboard extends Vue {
   @RecipesModule.Action
   fetchIngredientes!: () => Promise<void>;
   @Auth.Action
-  private fetchMe!: () => Promise<void>;
+  private fetchMe!: (data: {
+    allergy?: number;
+    ingredients?: [number];
+    rating?: number;
+    nutrition?: number;
+    time?: number;
+  }) => Promise<void>;
   @Auth.State("me")
   private me!: User;
   async mounted() {
+    await this.fetchGroup({
+      id: this.$route.params.idGroup,
+    });
     await this.fetchIngredientes();
-    await this.fetchMe();
+    await this.fetchMe({});
     console.log(this.ingredients);
   }
   async removee(item: { id: number; type: number }) {
     console.log(item);
 
-    const index = this.selectedIngredients.indexOf(item.id);
+    const index = this.selectedIngredients.indexOf(item.id as never);
     if (index >= 0) this.selectedIngredients.splice(index, 1);
   }
 
@@ -342,6 +354,58 @@ export default class Dashboard extends Vue {
     this.dialog2 = false;
     this.nameGroup = "";
   }
+
+  public handleFilter() {
+    const idIngredients = this.selectedIngredients.map((ingrediente) => {
+      return parseInt(ingrediente);
+    });
+
+    console.log(idIngredients);
+    if (this.$route.path === "/PagPrin/Principal") {
+      this.fetchMe({
+        allergy: this.selectedAllergies ? 1 : undefined,
+        ingredients:
+          idIngredients.length > 0 ? (idIngredients as [number]) : undefined,
+        rating: this.rating ? this.rating : undefined,
+        nutrition: this.typesFood ? this.typesFood : undefined,
+        time: this.positionMenu ? this.positionMenu : undefined,
+      });
+      this.dialog1 = false;
+    } else {
+      this.fetchGroup({
+        id: this.$route.params.idGroup,
+        allergy: this.selectedAllergies ? 1 : undefined,
+        ingredients:
+          idIngredients.length > 0 ? (idIngredients as [number]) : undefined,
+        nutrition: this.typesFood ? this.typesFood : undefined,
+        time: this.positionMenu ? this.positionMenu : undefined,
+      });
+      this.dialog1 = false;
+    }
+  }
+  @GroupModule.Action
+  private fetchGroup!: (data: {
+    id: string;
+    allergy?: number;
+    ingredients?: [number];
+    nutrition?: number;
+    time?: number;
+  }) => Promise<void>;
+  @GroupModule.State("group")
+  private groups!: Group;
+  @AuthModule.State("users")
+  private users!: User[];
+
+  /*   public setallergies(event) {
+    console.log(event);
+
+    if (event) {
+      console.log("entro");
+      this.me.allergies.map((allergy) => {
+        this.selectedAllergies.push(Number(allergy.id));
+      });
+    }
+  } */
 }
 </script>
 
